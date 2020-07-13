@@ -25,11 +25,9 @@ public class MeshMaker
                 i++;
             }
         }
-        int triangleIndex = 0;
-        int vertexIndex = 0;
-        for(int z = 0; z < resolution; z++)
+        for(int z = 0, triangleIndex = 0, vertexIndex = 0; z < resolution; z++, vertexIndex++)
         {
-            for(int x = 0; x < resolution; x++)
+            for(int x = 0; x < resolution; x++, triangleIndex += 6, vertexIndex++)
             {
                 triangles[triangleIndex + 0] = vertexIndex;
                 triangles[triangleIndex + 1] = vertexIndex + resolution + 1;
@@ -38,14 +36,8 @@ public class MeshMaker
                 triangles[triangleIndex + 3] = vertexIndex + 1;
                 triangles[triangleIndex + 4] = vertexIndex + resolution + 1;
                 triangles[triangleIndex + 5] = vertexIndex + resolution + 2;
-                triangleIndex += 6;
-                vertexIndex++;
             }
-            vertexIndex++;
         }
-
-
-        
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;

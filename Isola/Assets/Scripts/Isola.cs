@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Isola : MonoBehaviour
 {
-    [Range(2, 256)]
+    [Range(2, 255)]
     public int resolution;
     public bool autoUpdate = false;
-    private bool islandCreated = false;
 
     GameObject isola;
     MeshMaker meshMaker;
@@ -21,10 +20,8 @@ public class Isola : MonoBehaviour
 
     public void BuildUp()
     {
-        if (isola == null && islandCreated == false)
+        if (isola == null)
         {
-            resolution = 10;
-            islandCreated = true;
             isola = new GameObject("isola");
             isola.AddComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
             isola.AddComponent<MeshFilter>();
