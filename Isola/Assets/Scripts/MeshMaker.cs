@@ -6,33 +6,51 @@ public class MeshMaker
 {
     Mesh mesh;
     int size;
-
+    float meshHeight;
+    AnimationCurve curve;
 
     bool useFallOff;
     float[] fallOffMap;
+
+    bool usePerlin;
+    float[] perlinMap;
     
-    public MeshMaker(Mesh mesh, int size, bool useFallOff, float a, float b)
+    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve)
     {
         this.mesh = mesh;
         this.size = size;
+        this.curve = curve;
+        this.meshHeight = meshHeight;
         this.useFallOff = useFallOff;
-        fallOffMap = new float[size + 1 * size + 1];
+        this.usePerlin = usePerlin;
         fallOffMap = FallOffMap.FallOffMapMaker(size,a, b);
+        perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
     }
 
     public void MeshBuilder()
     {
         Vector3[] vertices = new Vector3[(size + 1) * (size + 1)];
         int[] triangles = new int[size * size * 6];
+        float halfMap = size * 0.5f;
         for(int i = 0, z = 0; z <= size; z++)
         {
-            for(int x = 0; x <= size; x++)
+            for (int x = 0; x <= size; x++)
             {
-                vertices[i] = new Vector3(x, 0, z);
-                if(useFallOff)
+                vertices[i] = new Vector3(x - halfMap, 0, z - halfMap);
+                if (useFallOff)
                 {
-                    vertices[i].y = fallOffMap[i];
+                    perlinMap[i] -= fallOffMap[i];
                 }
+                if (usePerlin)
+                {
+                    vertices[i].y = perlinMap[i];
+                }
+                vertices[i].y = curve.Evaluate(vertices[i].y);
+                if (x == 0 || x == size || z == 0 || z == size || vertices[i].y < 0.001f)
+                {
+                    vertices[i].y = 0.01f;
+                }
+                vertices[i].y *= meshHeight;
                 i++;
             }
         }

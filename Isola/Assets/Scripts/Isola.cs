@@ -8,12 +8,23 @@ public class Isola : MonoBehaviour
 {
     [Range(2, 255)]
     public int size;
-    [Range(0, 7)]
+    [Range(0, 10)]
     public float a;
-    [Range(0, 7)]
+    [Range(0, 10)]
     public float b;
+    [Range(0.1f, 100f)]
+    public float meshHeight;
+    [Range(0.001f, 33.0f)]
+    public float scale;
+    public Vector2 noiseStep;
     public bool autoUpdate = false;
     public bool useFallOff = false;
+    public bool usePerlin = false;
+    public int seed;
+    public AnimationCurve curve;
+
+
+
     GameObject isola;
     MeshMaker meshMaker;
     Material myMaterial;
@@ -26,7 +37,6 @@ public class Isola : MonoBehaviour
 
     public void BuildUp()
     {
-        //  (Material)Resources.Load("red.mat", typeof(Material));
         if (isola == null)
         {
             isola = new GameObject("isola");
@@ -34,11 +44,11 @@ public class Isola : MonoBehaviour
             isola.AddComponent<MeshRenderer>().sharedMaterial = myMaterial;
             isola.AddComponent<MeshFilter>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, a, b);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a, b, scale, noiseStep, seed, meshHeight, curve);
         }
         else
         {
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, a ,b);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a ,b, scale, noiseStep, seed, meshHeight, curve);
         }
     }
 
