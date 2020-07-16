@@ -49,12 +49,12 @@ public class MeshMaker
                 {
                     vertices[i].y = perlinMap[i];
                 }
-                vertices[i].y = curve.Evaluate(vertices[i].y);
                 if (x == 0 || x == size || z == 0 || z == size || vertices[i].y < 0.001f)
                 {
-                    vertices[i].y = 0.01f;
+                    //vertices[i].y = 0.01f;
                 }
                 colors[i] = gradient.Evaluate(vertices[i].y);
+                vertices[i].y = curve.Evaluate(vertices[i].y);
                 vertices[i].y *= meshHeight;
                 i++;
             }
@@ -75,6 +75,7 @@ public class MeshMaker
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.colors = colors;
         mesh.RecalculateNormals();
     }
 }
