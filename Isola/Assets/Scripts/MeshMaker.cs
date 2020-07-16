@@ -8,14 +8,16 @@ public class MeshMaker
     int size;
     float meshHeight;
     AnimationCurve curve;
+    Gradient gradient;
 
     bool useFallOff;
     float[] fallOffMap;
 
     bool usePerlin;
     float[] perlinMap;
+    Color[] colors;
     
-    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve)
+    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
     {
         this.mesh = mesh;
         this.size = size;
@@ -23,6 +25,7 @@ public class MeshMaker
         this.meshHeight = meshHeight;
         this.useFallOff = useFallOff;
         this.usePerlin = usePerlin;
+        this.gradient = gradient;
         fallOffMap = FallOffMap.FallOffMapMaker(size,a, b);
         perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
     }
@@ -32,6 +35,7 @@ public class MeshMaker
         Vector3[] vertices = new Vector3[(size + 1) * (size + 1)];
         int[] triangles = new int[size * size * 6];
         float halfMap = size * 0.5f;
+        colors = new Color[vertices.Length];
         for(int i = 0, z = 0; z <= size; z++)
         {
             for (int x = 0; x <= size; x++)
@@ -50,6 +54,7 @@ public class MeshMaker
                 {
                     vertices[i].y = 0.01f;
                 }
+                colors[i] = gradient.Evaluate(vertices[i].y);
                 vertices[i].y *= meshHeight;
                 i++;
             }

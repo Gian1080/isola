@@ -14,7 +14,7 @@ public class Isola : MonoBehaviour
     public float b;
     [Range(0.1f, 100f)]
     public float meshHeight;
-    [Range(0.001f, 33.0f)]
+    [Range(0.001f, 100.0f)]
     public float scale;
     public Vector2 noiseStep;
     public bool autoUpdate = false;
@@ -22,6 +22,7 @@ public class Isola : MonoBehaviour
     public bool usePerlin = false;
     public int seed;
     public AnimationCurve curve;
+    public Gradient gradient;
 
 
 
@@ -40,15 +41,15 @@ public class Isola : MonoBehaviour
         if (isola == null)
         {
             isola = new GameObject("isola");
-            myMaterial = new Material(Shader.Find("Standard"));
+            myMaterial = Resources.Load<Material>("Materials/terrainMaterial");
             isola.AddComponent<MeshRenderer>().sharedMaterial = myMaterial;
             isola.AddComponent<MeshFilter>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a, b, scale, noiseStep, seed, meshHeight, curve);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
         else
         {
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a ,b, scale, noiseStep, seed, meshHeight, curve);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }
 
