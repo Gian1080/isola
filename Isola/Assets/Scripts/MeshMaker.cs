@@ -15,9 +15,10 @@ public class MeshMaker
 
     bool usePerlin;
     float[] perlinMap;
+    bool useColor;
     Color[] colors;
     
-    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
+    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
     {
         this.mesh = mesh;
         this.size = size;
@@ -25,6 +26,7 @@ public class MeshMaker
         this.meshHeight = meshHeight;
         this.useFallOff = useFallOff;
         this.usePerlin = usePerlin;
+        this.useColor = useColor;
         this.gradient = gradient;
         fallOffMap = FallOffMap.FallOffMapMaker(size,a, b);
         perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
@@ -75,7 +77,10 @@ public class MeshMaker
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        if(useColor)
+        {
         mesh.colors = colors;
+        }
         mesh.RecalculateNormals();
     }
 }

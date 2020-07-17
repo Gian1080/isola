@@ -20,6 +20,7 @@ public class Isola : MonoBehaviour
     public bool autoUpdate = false;
     public bool useFallOff = false;
     public bool usePerlin = false;
+    public bool useColor = false;
     public int seed;
     public AnimationCurve curve;
     public Gradient gradient;
@@ -45,11 +46,11 @@ public class Isola : MonoBehaviour
             isola.AddComponent<MeshRenderer>().sharedMaterial = myMaterial;
             isola.AddComponent<MeshFilter>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
         else
         {
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }
 
