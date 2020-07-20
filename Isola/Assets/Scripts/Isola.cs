@@ -28,7 +28,7 @@ public class Isola : MonoBehaviour
 
 
     GameObject isola;
-    MeshMaker meshMaker;
+    IslandBuilder meshMaker;
     Material myMaterial;
     private void OnValidate()
     {
@@ -46,18 +46,18 @@ public class Isola : MonoBehaviour
             isola.AddComponent<MeshRenderer>().sharedMaterial = myMaterial;
             isola.AddComponent<MeshFilter>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
         else
         {
             myMaterial = Resources.Load<Material>("Materials/terrainMaterial");
 
-            meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }
 
     void MakeNewMesh()
     {
-        meshMaker.MeshBuilder();
+        meshMaker.BuildIsland();
     }
 }

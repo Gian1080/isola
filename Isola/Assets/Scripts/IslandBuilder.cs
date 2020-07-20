@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshMaker
+public class IslandBuilder
 {
     Mesh mesh;
     int size;
@@ -18,7 +18,7 @@ public class MeshMaker
     bool useColor;
     Color[] colors;
     
-    public MeshMaker(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
+    public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
     {
         this.mesh = mesh;
         this.size = size;
@@ -32,7 +32,7 @@ public class MeshMaker
         perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
     }
 
-    public void MeshBuilder()
+    public void BuildIsland()
     {
         Vector3[] vertices = new Vector3[(size + 1) * (size + 1)];
         int[] triangles = new int[size * size * 6];
