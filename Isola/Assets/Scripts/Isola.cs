@@ -50,6 +50,8 @@ public class Isola : MonoBehaviour
         }
         else
         {
+            myMaterial = Resources.Load<Material>("Materials/terrainMaterial");
+
             meshMaker = new MeshMaker(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }
