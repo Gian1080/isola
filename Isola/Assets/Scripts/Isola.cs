@@ -26,38 +26,69 @@ public class Isola : MonoBehaviour
     public Gradient gradient;
 
 
-
-    GameObject isola;
+    Plane plane;
     IslandBuilder meshMaker;
-    Material myMaterial;
+    GameObject isola;
+    Material islandMaterial;
+
+    WaterMaker waterMaker;
+    GameObject water;
+    Material waterMaterial;
+
+
     private void OnValidate()
     {
-        BuildUp();
-        MakeNewMesh();
+        GenerateIsland();
+        GenerateWater();
+        MakeNewIsland();
+    }
+
+    public void Update()
+    {
+        plane.Translate(new Vector3(100, 100));
     }
 
 
-    public void BuildUp()
+    public void GenerateIsland()
     {
         if (isola == null)
         {
+            plane = new Plane();
+            
             isola = new GameObject("isola");
-            myMaterial = Resources.Load<Material>("Materials/terrainMaterial");
-            isola.AddComponent<MeshRenderer>().sharedMaterial = myMaterial;
+            islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
+            isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
             isola.AddComponent<MeshFilter>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
         else
         {
-            myMaterial = Resources.Load<Material>("Materials/terrainMaterial");
-
+            //islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
             meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }
 
-    void MakeNewMesh()
+    public void GenerateWater()
+    {
+        if(water == null)
+        {
+            water = new GameObject("water");
+            water.AddComponent<MeshFilter>();
+            waterMaterial = Resources.Load<Material>("Materials/CartoonWater");
+            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
+            water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+        }
+        else
+        {
+            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+        }
+    }
+
+    void MakeNewIsland()
     {
         meshMaker.BuildIsland();
+        waterMaker.GenerateWater();
     }
 }
