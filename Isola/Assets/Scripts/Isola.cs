@@ -59,8 +59,10 @@ public class Isola : MonoBehaviour
             islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
             isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
             isola.AddComponent<MeshFilter>();
+            isola.AddComponent<MeshCollider>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            isola.transform.localScale += new Vector3(10, 10, 10);
         }
         else
         {
@@ -75,10 +77,12 @@ public class Isola : MonoBehaviour
         {
             water = new GameObject("water");
             water.AddComponent<MeshFilter>();
-            waterMaterial = Resources.Load<Material>("Materials/CartoonWater");
-            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+            waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
+            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
+            water.transform.localScale += new Vector3(10, 10, 10);
+            water.transform.position += new Vector3(0, 10, 0);
         }
         else
         {

@@ -51,9 +51,13 @@ public class IslandBuilder
                 {
                     vertices[i].y = perlinMap[i];
                 }
-                if (x == 0 || x == size || z == 0 || z == size || vertices[i].y < 0.001f)
+                if (x == 0 || x == size || z == 0 || z == size)
                 {
-                    //vertices[i].y = 0.01f;
+                    vertices[i].y = 0.001f;
+                }
+                if(vertices[i].y < 0.1f)
+                {
+                    vertices[i].y += Mathf.PerlinNoise((float)x / size, (float)z / size) * 0.1f;
                 }
                 colors[i] = gradient.Evaluate(vertices[i].y);
                 vertices[i].y = curve.Evaluate(vertices[i].y);

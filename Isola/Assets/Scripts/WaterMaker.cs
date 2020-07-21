@@ -17,12 +17,13 @@ public class WaterMaker
     {
         Vector3[] vertices = new Vector3[(size + 1) * (size + 1)];
         int[] triangles = new int[size * size * 6];
+        Vector2[] uvs = new Vector2[vertices.Length];
         float halfMap = size * 0.5f;
         for(int z = 0, i = 0; z <= size; z++)
         {
             for(int x = 0; x <= size; x++)
             {
-                vertices[i] = new Vector3(x - halfMap, 0.25f, z - halfMap);
+                vertices[i] = new Vector3(x - halfMap, 1, z - halfMap);
                 i++;
             }
         }
@@ -40,9 +41,18 @@ public class WaterMaker
                 triangleIndex += 6;
             }
         }
+        for (int z = 0, i = 0; z <= size; z++)
+        {
+            for (int x = 0; x <= size; x++)
+            {
+                uvs[i] = new Vector2((float)x / size, (float)z / size);
+                i++;
+            }
+        }
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.uv = uvs;
         mesh.RecalculateNormals();
     }
 
