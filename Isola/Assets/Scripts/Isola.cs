@@ -25,8 +25,6 @@ public class Isola : MonoBehaviour
     public AnimationCurve curve;
     public Gradient gradient;
 
-
-    Plane plane;
     IslandBuilder meshMaker;
     GameObject isola;
     Material islandMaterial;
@@ -43,18 +41,10 @@ public class Isola : MonoBehaviour
         MakeNewIsland();
     }
 
-    public void Update()
-    {
-        plane.Translate(new Vector3(100, 100));
-    }
-
-
     public void GenerateIsland()
     {
         if (isola == null)
         {
-            plane = new Plane();
-            
             isola = new GameObject("isola");
             islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
             isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
@@ -66,7 +56,6 @@ public class Isola : MonoBehaviour
         }
         else
         {
-            //islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
             meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve, gradient);
         }
     }

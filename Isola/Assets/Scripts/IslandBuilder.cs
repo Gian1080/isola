@@ -55,10 +55,6 @@ public class IslandBuilder
                 {
                     vertices[i].y = 0.001f;
                 }
-                if(vertices[i].y < 0.1f)
-                {
-                    vertices[i].y += Mathf.PerlinNoise((float)x / size, (float)z / size) * 0.1f;
-                }
                 colors[i] = gradient.Evaluate(vertices[i].y);
                 vertices[i].y = curve.Evaluate(vertices[i].y);
                 vertices[i].y *= meshHeight;

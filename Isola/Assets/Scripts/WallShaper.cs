@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallShaper
 {
     Mesh mesh;
-    SimplexNoise noise;
+    Noise noise;
     int size;
     int wallWidth;
     int wallHeight;
@@ -18,7 +18,7 @@ public class WallShaper
         wallWidth = size + (size / 5);
         wallHeight = size / 2; 
         this.meshHeight = meshHeight;
-        noise = new SimplexNoise();
+        noise = new Noise();
     }
 
     public void BuildThatWall()
@@ -30,7 +30,7 @@ public class WallShaper
             for(int x = 0; x <= wallWidth; x++, i++)
             {
                 vertices[i] = new Vector3(x, 0, z);
-                vertices[i].y = (noise.Evaluate(vertices[i]) + 1) * 0.5f;
+                //vertices[i].y = (noise.Evaluate(vertices[i]) + 1) * 0.5f;
                 //vertices[i].y *= meshHeight;
             }
         }
