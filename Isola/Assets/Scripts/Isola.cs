@@ -68,7 +68,7 @@ public class Isola : MonoBehaviour
             water.AddComponent<MeshFilter>();
             water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-            waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
+            waterMaterial = Resources.Load<Material>("Materials/CartoonWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.transform.localScale += new Vector3(10, 10, 10);
             water.transform.position += new Vector3(0, 15, 0);
