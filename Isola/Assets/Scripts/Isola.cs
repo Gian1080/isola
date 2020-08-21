@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,7 +33,6 @@ public class Isola : MonoBehaviour
     WaterMaker waterMaker;
     GameObject water;
     Material waterMaterial;
-
 
     private void OnValidate()
     {
@@ -68,7 +68,7 @@ public class Isola : MonoBehaviour
             water.AddComponent<MeshFilter>();
             water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-            waterMaterial = Resources.Load<Material>("Materials/CartoonWater");
+            waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.transform.localScale += new Vector3(10, 10, 10);
             water.transform.position += new Vector3(0, 15, 0);
@@ -83,5 +83,14 @@ public class Isola : MonoBehaviour
     {
         meshMaker.BuildIsland();
         waterMaker.GenerateWater();
+    }
+
+    void Converter(List<Vector2> points)
+    {
+        newPoints = new List<Vector3>();
+        foreach (Vector2 point in points)
+        {
+            newPoints.Add(new Vector3(point.x, 0, point.y));
+        }
     }
 }
