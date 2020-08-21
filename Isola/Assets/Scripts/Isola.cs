@@ -28,6 +28,7 @@ public class Isola : MonoBehaviour
     public Gradient gradient;
 
     IslandBuilder meshMaker;
+    MeshCollider collider;
     GameObject isola;
     Material islandMaterial;
 
@@ -56,7 +57,7 @@ public class Isola : MonoBehaviour
     public int bigItemSampleAttempts;
     List<Vector2> treePoints;
     List<Vector3> treeMap;
-    List<Vector3> testTree;
+    List<Vector3> finalTreePoints;
 
 
     private void OnValidate()
@@ -74,10 +75,13 @@ public class Isola : MonoBehaviour
             islandMaterial = Resources.Load<Material>("Materials/secondTerrainMaterial");
             isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
             isola.AddComponent<MeshFilter>();
-            isola.AddComponent<MeshCollider>();
+            collider = isola.AddComponent<MeshCollider>();
             isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
             meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, gradient);
+            collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
             isola.transform.localScale += new Vector3(10, 10, 10);
+
+            
         }
         else
         {
@@ -114,6 +118,7 @@ public class Isola : MonoBehaviour
         bushMap = Converter(bushPoints);
         treePoints = PoissonDiscSampling.GeneratePoints(bigItemRadius, regionSize, bigItemSampleAttempts);
         treeMap = Converter(treePoints);
+        finalTreePoints = ObjectHeightAdjuster(treeMap);
     }
 
     List<Vector3> Converter(List<Vector2> points)
@@ -126,9 +131,37 @@ public class Isola : MonoBehaviour
             float z = point.y;
             x -= halfMap;
             z -= halfMap;
-            naturePoints.Add(new Vector3(x, 1, z));
+            naturePoints.Add(new Vector3(x, 1000, z));
         }
         return naturePoints;
+    }
+
+    private void Update()
+    {
+        Ray ray = new Ray(new Vector3(treeMap[0].x, treeMap[0].y, treeMap[0].z), Vector3.down);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 1100))
+        {
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
+            //print(hitInfo.point.y);
+        }
+    }
+
+    List<Vector3> ObjectHeightAdjuster(List<Vector3> objectMap)
+    {
+        List<Vector3> newMap = new List<Vector3>();
+        for(int i = 0; i < objectMap.Count; i++)
+        {
+            GameObject gameObject = new GameObject("Test " + i.ToString());
+            gameObject.transform.position += new Vector3(objectMap[i].x, objectMap[i].y, objectMap[i].z);
+            Ray ray = new Ray(new Vector3(objectMap[i].x, objectMap[i].y, objectMap[i].z), Vector3.down);
+            RaycastHit hitInfo;
+            if(Physics.Raycast(ray, out hitInfo, 1100))
+            {
+                newMap.Add(new Vector3(objectMap[i].x, hitInfo.point.y, objectMap[i].z));
+            }
+        }
+        return newMap;
     }
 
 
@@ -142,7 +175,7 @@ public class Isola : MonoBehaviour
     void OnDrawGizmos()
     {
         
-        if (rockMap != null)
+/*        if (rockMap != null)
         {
             foreach (Vector3 newPoint in rockMap)
             {
@@ -157,7 +190,20 @@ public class Isola : MonoBehaviour
                 Gizmos.color = Color.red;
                 Gizmos.DrawSphere(newPoint, 4);
             }
+        }*/
+        if(treePoints != null)
+        {
+            foreach (Vector3 newPoint in finalTreePoints)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(newPoint, 9);
+            }
         }
+        else
+        {
+            print("EMPTY");
+        }
+
         if (treeMap != null)
         {
             foreach (Vector3 newPoint in treeMap)
