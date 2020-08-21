@@ -34,6 +34,29 @@ public class Isola : MonoBehaviour
     GameObject water;
     Material waterMaterial;
 
+    Vector2 regionSize;
+    [Range(5, 300)]
+    public float smallItemRadius;
+    [Range(1,30)]
+    public int smallItemSampleAttempts;
+    List<Vector2> rockPoints;
+    List<Vector3> rockMap;
+
+    [Range(20, 300)]
+    public float midItemRadius;
+    [Range(1, 30)]
+    public int midItemSampleAttempts;
+    List<Vector2> bushPoints;
+    List<Vector3> bushMap;
+
+    [Range(50, 300)]
+    public float bigItemRadius;
+    [Range(1, 30)]
+    public int bigItemSampleAttempts;
+    List<Vector2> treePoints;
+    List<Vector3> treeMap;
+
+
     private void OnValidate()
     {
         GenerateIsland();
@@ -46,7 +69,7 @@ public class Isola : MonoBehaviour
         if (isola == null)
         {
             isola = new GameObject("isola");
-            islandMaterial = Resources.Load<Material>("Materials/terrainMaterial");
+            islandMaterial = Resources.Load<Material>("Materials/secondTerrainMaterial");
             isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
             isola.AddComponent<MeshFilter>();
             isola.AddComponent<MeshCollider>();
@@ -79,18 +102,67 @@ public class Isola : MonoBehaviour
         }
     }
 
+    void GenerateNatureSpawn()
+    {
+        regionSize.x = (float)size * 10;
+        regionSize.y = (float)size * 10;
+        rockPoints = PoissonDiscSampling.GeneratePoints(smallItemRadius, regionSize, smallItemSampleAttempts);
+        rockMap = Converter(rockPoints);
+        bushPoints = PoissonDiscSampling.GeneratePoints(midItemRadius, regionSize, midItemSampleAttempts);
+        bushMap = Converter(bushPoints);
+        treePoints = PoissonDiscSampling.GeneratePoints(bigItemRadius, regionSize, bigItemSampleAttempts);
+        treeMap = Converter(treePoints);
+    }
+
+    List<Vector3> Converter(List<Vector2> points)
+    {
+        float halfMap = size * 5;
+        List<Vector3> naturePoints = new List<Vector3>();
+        foreach (Vector2 point in points)
+        {
+            float x = point.x;
+            float z = point.y;
+            x -= halfMap;
+            z -= halfMap;
+            naturePoints.Add(new Vector3(x, 55, z));
+        }
+        return naturePoints;
+    }
+
     void MakeNewIsland()
     {
+        GenerateNatureSpawn();
         meshMaker.BuildIsland();
         waterMaker.GenerateWater();
     }
 
-    void Converter(List<Vector2> points)
+
+    void OnDrawGizmos()
     {
-        newPoints = new List<Vector3>();
-        foreach (Vector2 point in points)
+        
+        if (rockMap != null)
         {
-            newPoints.Add(new Vector3(point.x, 0, point.y));
+            foreach (Vector3 newPoint in rockMap)
+            {
+                Gizmos.color = Color.blue;
+               Gizmos.DrawSphere(newPoint, 2);
+            }
+        }
+        if (bushMap != null)
+        {
+            foreach (Vector3 newPoint in bushMap)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(newPoint, 4);
+            }
+        }
+        if (treeMap != null)
+        {
+            foreach (Vector3 newPoint in treeMap)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(newPoint, 6);
+            }
         }
     }
 }

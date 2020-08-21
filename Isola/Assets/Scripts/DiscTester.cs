@@ -5,42 +5,48 @@ using UnityEngine;
 
 public class DiscTester : MonoBehaviour
 {
-    [Range(1,50)]
+    [Range(7,50)]
     public float radius = 1;
     public Vector2 regionSize = Vector2.one;
     public int rejectionSampleSize = 30;
     public float displayRadius = 0.8f;
+    
+    public float size = 200;
     List<Vector2> points;
     List<Vector3> newPoints;
 
     void OnValidate()
     {
         points = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSampleSize);
-        Converter(points);
+        Converter();
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(regionSize / 2, regionSize);
-        if(points != null)
+        //Gizmos.DrawWireCube(regionSize / 2, regionSize);
+        if(newPoints != null)
         {
-            foreach(Vector2 point in points)
-            {
-                Gizmos.DrawSphere(point, displayRadius);
-            }
             foreach(Vector3 newPoint in newPoints)
             {
-                Gizmos.DrawSphere(newPoint, displayRadius);
+                //Gizmos.DrawSphere(newPoint, displayRadius);
             }
         }
     }
 
-    void Converter(List<Vector2> points)
+    void Converter()
     {
+        float halfMap = size * 5;
+        //Debug.Log(halfMap);
         newPoints = new List<Vector3>();
         foreach(Vector2 point in points)
         {
-            newPoints.Add(new Vector3(point.x, 0, point.y));
+            float x = point.x;
+            float z = point.y;
+            x -= 1000;
+            z -= 1000;
+            newPoints.Add(new Vector3(x, 2, z));
         }
+        
+
     }
 }
