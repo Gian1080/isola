@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 //using System.Numerics;
 using UnityEditor;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class Isola : MonoBehaviour
     public int bigItemSampleAttempts;
     List<Vector2> treePoints;
     List<Vector3> treeMap;
+    List<Vector3> testTree;
 
 
     private void OnValidate()
@@ -124,18 +126,18 @@ public class Isola : MonoBehaviour
             float z = point.y;
             x -= halfMap;
             z -= halfMap;
-            naturePoints.Add(new Vector3(x, 55, z));
+            naturePoints.Add(new Vector3(x, 1, z));
         }
         return naturePoints;
     }
 
+
     void MakeNewIsland()
     {
-        GenerateNatureSpawn();
         meshMaker.BuildIsland();
         waterMaker.GenerateWater();
+        GenerateNatureSpawn();
     }
-
 
     void OnDrawGizmos()
     {
@@ -144,7 +146,7 @@ public class Isola : MonoBehaviour
         {
             foreach (Vector3 newPoint in rockMap)
             {
-                Gizmos.color = Color.blue;
+               Gizmos.color = Color.blue;
                Gizmos.DrawSphere(newPoint, 2);
             }
         }

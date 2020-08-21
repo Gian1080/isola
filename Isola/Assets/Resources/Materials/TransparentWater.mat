@@ -30,10 +30,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Depth: 7.76
-    - _Displacement: 0.3
+    - _Displacement: 0.5
     - _NormalStrength: 1
     - _Smoothness: 0.9
     - _Strenght: 0.25
     m_Colors:
-    - _DeepWater: {r: 0.09211465, g: 0.17162533, b: 0.8490566, a: 0.7490196}
+    - _DeepWater: {r: 0.1, g: 0.175, b: 0.85, a: 0.8}
     - _ShallowWater: {r: 0.34825563, g: 0.5640674, b: 0.8113208, a: 0.7490196}

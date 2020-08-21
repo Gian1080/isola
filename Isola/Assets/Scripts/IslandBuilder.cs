@@ -17,6 +17,7 @@ public class IslandBuilder
     float[] perlinMap;
     bool useColor;
     Color[] colors;
+
     
     public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
     {
