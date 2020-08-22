@@ -62,15 +62,9 @@ public class Isola : MonoBehaviour
     List<Vector3> treeMap;
     List<Vector3> finalTreePoints;
 
-    GameObject[] grassObjects;
-    GameObject[] bushObjects;
-    GameObject[] treeObjects;
-
     public GameObject[] grassSkins;
     public GameObject[] bushSkins;
     public GameObject[] treeSkins;
-    public bool something = false;
-    public bool derpistan = false;
 
 
     private void OnValidate()
@@ -137,34 +131,16 @@ public class Isola : MonoBehaviour
         finalTreePoints = ObjectHeightAdjuster(treeMap);
         finalBushPoints = ObjectHeightAdjuster(bushMap);
         finalRockPoints = ObjectHeightAdjuster(rockMap);
-        treeObjects = TreeMaker(finalTreePoints);
-        bushObjects = BushMaker(finalBushPoints);
-        grassObjects = GrassMaker(finalRockPoints);
+        TreePlacer(finalTreePoints);
+        RockPlacer(finalBushPoints);
+        GrassPlacer(finalRockPoints);
     }
 
-    GameObject[] TreeMaker(List<Vector3> naturePoints)
-    {
-        GameObject[] natureObjects = new GameObject[naturePoints.Count];
-        for(int i = 0; i < naturePoints.Count; i++)
-        {
-            if(naturePoints[i].y >= 22 && naturePoints[i].y < 100)
-            {
-                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
-                Vector3 scale = Vector3.one * size / 22;
-                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(treeSkins[Random.Range(0,5)]);
-                natureObjects[i] = natureThing;
-                natureObjects[i].transform.position = position;
-                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
-                natureObjects[i].transform.eulerAngles = rotation;
-            }
-        }
-        return natureObjects;
-    }
 
-    GameObject[] GrassMaker(List<Vector3> naturePoints)
+    void GrassPlacer(List<Vector3> naturePoints)
     {
         GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        GameObject grass = new GameObject("Grass Parent");
         for (int i = 0; i < naturePoints.Count; i++)
         {
             if (naturePoints[i].y >= 20 && naturePoints[i].y < 100)
@@ -174,17 +150,18 @@ public class Isola : MonoBehaviour
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
                 GameObject natureThing = Instantiate(grassSkins[Random.Range(0, 10)]);
                 natureObjects[i] = natureThing;
+                natureObjects[i].transform.parent = grass.transform;
                 natureObjects[i].transform.position = position;
                 natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
                 natureObjects[i].transform.eulerAngles = rotation;
             }
         }
-        return natureObjects;
     }
 
-    GameObject[] BushMaker(List<Vector3> naturePoints)
+    void RockPlacer(List<Vector3> naturePoints)
     {
         GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        GameObject rock = new GameObject("Rock Parent");
         for (int i = 0; i < naturePoints.Count; i++)
         {
             if (naturePoints[i].y >= 22 && naturePoints[i].y < 100)
@@ -194,12 +171,33 @@ public class Isola : MonoBehaviour
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
                 GameObject natureThing = Instantiate(bushSkins[Random.Range(0, 12)]);
                 natureObjects[i] = natureThing;
+                natureObjects[i].transform.parent = rock.transform;
                 natureObjects[i].transform.position = position;
                 natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
                 natureObjects[i].transform.eulerAngles = rotation;
             }
         }
-        return natureObjects;
+    }
+
+    void TreePlacer(List<Vector3> naturePoints)
+    {
+        GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        GameObject tree = new GameObject("Tree Parent");
+        for(int i = 0; i < naturePoints.Count; i++)
+        {
+            if(naturePoints[i].y >= 22 && naturePoints[i].y < 100)
+            {
+                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
+                Vector3 scale = Vector3.one * size / 22;
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                GameObject natureThing = Instantiate(treeSkins[Random.Range(0,5)]);
+                natureObjects[i] = natureThing;
+                natureObjects[i].transform.parent = tree.transform;
+                natureObjects[i].transform.position = position;
+                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                natureObjects[i].transform.eulerAngles = rotation;
+            }
+        }
     }
 
     List<Vector3> Converter(List<Vector2> points)
