@@ -62,19 +62,16 @@ public class Isola : MonoBehaviour
     List<Vector3> treeMap;
     List<Vector3> finalTreePoints;
 
-    GameObject[] rockObjects;
+    GameObject[] grassObjects;
     GameObject[] bushObjects;
     GameObject[] treeObjects;
 
     public GameObject[] grassSkins;
     public GameObject[] bushSkins;
     public GameObject[] treeSkins;
+    public bool something = false;
+    public bool derpistan = false;
 
-
-
-    private void Update()
-    {
-    }
 
     private void OnValidate()
     {
@@ -142,7 +139,7 @@ public class Isola : MonoBehaviour
         finalRockPoints = ObjectHeightAdjuster(rockMap);
         treeObjects = TreeMaker(finalTreePoints);
         bushObjects = BushMaker(finalBushPoints);
-        grassSkins = GrassMaker(finalRockPoints);
+        grassObjects = GrassMaker(finalRockPoints);
     }
 
     GameObject[] TreeMaker(List<Vector3> naturePoints)
@@ -175,7 +172,7 @@ public class Isola : MonoBehaviour
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
                 Vector3 scale = Vector3.one * size / 22;
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(grassSkins[Random.Range(0, 5)]);
+                GameObject natureThing = Instantiate(grassSkins[Random.Range(0, 10)]);
                 natureObjects[i] = natureThing;
                 natureObjects[i].transform.position = position;
                 natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
@@ -195,7 +192,7 @@ public class Isola : MonoBehaviour
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
                 Vector3 scale = Vector3.one * size / 22;
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(bushSkins[Random.Range(0, 5)]);
+                GameObject natureThing = Instantiate(bushSkins[Random.Range(0, 12)]);
                 natureObjects[i] = natureThing;
                 natureObjects[i].transform.position = position;
                 natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
@@ -204,8 +201,6 @@ public class Isola : MonoBehaviour
         }
         return natureObjects;
     }
-
-
 
     List<Vector3> Converter(List<Vector2> points)
     {
@@ -222,7 +217,6 @@ public class Isola : MonoBehaviour
         return naturePoints;
     }
 
-
     List<Vector3> ObjectHeightAdjuster(List<Vector3> objectMap)
     {
         List<Vector3> newMap = new List<Vector3>();
@@ -238,53 +232,10 @@ public class Isola : MonoBehaviour
         return newMap;
     }
 
-
     void MakeNewIsland()
     {
         meshMaker.BuildIsland();
         waterMaker.GenerateWater();
         GenerateNatureSpawn();
-    }
-
-    void OnDrawGizmos()
-    {
-        
-/*        if (rockMap != null)
-        {
-            foreach (Vector3 newPoint in rockMap)
-            {
-               Gizmos.color = Color.blue;
-               Gizmos.DrawSphere(newPoint, 2);
-            }
-        }
-        if (bushMap != null)
-        {
-            foreach (Vector3 newPoint in bushMap)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(newPoint, 4);
-            }
-        }*/
-/*        if(treePoints != null)
-        {
-            foreach (Vector3 newPoint in finalTreePoints)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(newPoint, 9);
-            }
-        }
-        else
-        {
-            print("EMPTY");
-        }
-
-        if (treeMap != null)
-        {
-            foreach (Vector3 newPoint in treeMap)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(newPoint, 6);
-            }
-        }*/
     }
 }
