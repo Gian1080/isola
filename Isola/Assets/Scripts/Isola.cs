@@ -74,13 +74,6 @@ public class Isola : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = new Ray(new Vector3(treeMap[0].x, treeMap[0].y, treeMap[0].z), Vector3.down);
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 1100))
-        {
-            Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
-            print(hitInfo.point.y);
-        }
     }
 
     private void OnValidate()
