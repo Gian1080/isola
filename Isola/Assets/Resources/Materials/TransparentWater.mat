@@ -21,11 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainNormal:
-        m_Texture: {fileID: 2800000, guid: f805e88d3eaf0f046ac4ed03de5c7c3e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 33ba5140ff8350742a9be1b79eeefd82, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondNormal:
-        m_Texture: {fileID: 2800000, guid: 5e3b47c76d4c55d44be834515b7fe551, type: 3}
+        m_Texture: {fileID: 2800000, guid: aa701e5be2dbcd24aad4fb9c3ca284da, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -35,5 +35,5 @@ Material:
     - _Smoothness: 0.9
     - _Strenght: 0.25
     m_Colors:
-    - _DeepWater: {r: 0.1, g: 0.175, b: 0.85, a: 0.8}
-    - _ShallowWater: {r: 0.34825563, g: 0.5640674, b: 0.8113208, a: 0.7490196}
+    - _DeepWater: {r: 0, g: 0.052033424, b: 1, a: 0.8}
+    - _ShallowWater: {r: 0.42052332, g: 0.738, b: 0.8490566, a: 0.46666667}

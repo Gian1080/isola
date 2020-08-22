@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class Isola : MonoBehaviour
 {
+    public bool updateGame = false;
     [Range(2, 255)]
     public int size;
     [Range(0, 10)]
@@ -43,6 +44,7 @@ public class Isola : MonoBehaviour
     public int smallItemSampleAttempts;
     List<Vector2> rockPoints;
     List<Vector3> rockMap;
+    List<Vector3> finalRockPoints;
 
     [Range(20, 300)]
     public float midItemRadius;
@@ -50,6 +52,7 @@ public class Isola : MonoBehaviour
     public int midItemSampleAttempts;
     List<Vector2> bushPoints;
     List<Vector3> bushMap;
+    List<Vector3> finalBushPoints;
 
     [Range(50, 300)]
     public float bigItemRadius;
@@ -59,12 +62,35 @@ public class Isola : MonoBehaviour
     List<Vector3> treeMap;
     List<Vector3> finalTreePoints;
 
+    GameObject[] rockObjects;
+    GameObject[] bushObjects;
+    GameObject[] treeObjects;
+
+    public GameObject[] grassSkins;
+    public GameObject[] bushSkins;
+    public GameObject[] treeSkins;
+
+
+
+    private void Update()
+    {
+        Ray ray = new Ray(new Vector3(treeMap[0].x, treeMap[0].y, treeMap[0].z), Vector3.down);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 1100))
+        {
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
+            print(hitInfo.point.y);
+        }
+    }
 
     private void OnValidate()
     {
-        GenerateIsland();
-        GenerateWater();
-        MakeNewIsland();
+        if (updateGame)
+        {
+            GenerateIsland();
+            GenerateWater();
+            MakeNewIsland();
+        }
     }
 
     public void GenerateIsland()
@@ -119,7 +145,74 @@ public class Isola : MonoBehaviour
         treePoints = PoissonDiscSampling.GeneratePoints(bigItemRadius, regionSize, bigItemSampleAttempts);
         treeMap = Converter(treePoints);
         finalTreePoints = ObjectHeightAdjuster(treeMap);
+        finalBushPoints = ObjectHeightAdjuster(bushMap);
+        finalRockPoints = ObjectHeightAdjuster(rockMap);
+        treeObjects = TreeMaker(finalTreePoints);
+        bushObjects = BushMaker(finalBushPoints);
+        grassSkins = GrassMaker(finalRockPoints);
     }
+
+    GameObject[] TreeMaker(List<Vector3> naturePoints)
+    {
+        GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        for(int i = 0; i < naturePoints.Count; i++)
+        {
+            if(naturePoints[i].y >= 22 && naturePoints[i].y < 100)
+            {
+                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
+                Vector3 scale = Vector3.one * size / 22;
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                GameObject natureThing = Instantiate(treeSkins[Random.Range(0,5)]);
+                natureObjects[i] = natureThing;
+                natureObjects[i].transform.position = position;
+                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                natureObjects[i].transform.eulerAngles = rotation;
+            }
+        }
+        return natureObjects;
+    }
+
+    GameObject[] GrassMaker(List<Vector3> naturePoints)
+    {
+        GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        for (int i = 0; i < naturePoints.Count; i++)
+        {
+            if (naturePoints[i].y >= 20 && naturePoints[i].y < 100)
+            {
+                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
+                Vector3 scale = Vector3.one * size / 22;
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                GameObject natureThing = Instantiate(grassSkins[Random.Range(0, 5)]);
+                natureObjects[i] = natureThing;
+                natureObjects[i].transform.position = position;
+                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                natureObjects[i].transform.eulerAngles = rotation;
+            }
+        }
+        return natureObjects;
+    }
+
+    GameObject[] BushMaker(List<Vector3> naturePoints)
+    {
+        GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        for (int i = 0; i < naturePoints.Count; i++)
+        {
+            if (naturePoints[i].y >= 22 && naturePoints[i].y < 100)
+            {
+                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
+                Vector3 scale = Vector3.one * size / 22;
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                GameObject natureThing = Instantiate(bushSkins[Random.Range(0, 5)]);
+                natureObjects[i] = natureThing;
+                natureObjects[i].transform.position = position;
+                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                natureObjects[i].transform.eulerAngles = rotation;
+            }
+        }
+        return natureObjects;
+    }
+
+
 
     List<Vector3> Converter(List<Vector2> points)
     {
@@ -136,24 +229,12 @@ public class Isola : MonoBehaviour
         return naturePoints;
     }
 
-    private void Update()
-    {
-        Ray ray = new Ray(new Vector3(treeMap[0].x, treeMap[0].y, treeMap[0].z), Vector3.down);
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 1100))
-        {
-            Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
-            //print(hitInfo.point.y);
-        }
-    }
 
     List<Vector3> ObjectHeightAdjuster(List<Vector3> objectMap)
     {
         List<Vector3> newMap = new List<Vector3>();
         for(int i = 0; i < objectMap.Count; i++)
         {
-            GameObject gameObject = new GameObject("Test " + i.ToString());
-            gameObject.transform.position += new Vector3(objectMap[i].x, objectMap[i].y, objectMap[i].z);
             Ray ray = new Ray(new Vector3(objectMap[i].x, objectMap[i].y, objectMap[i].z), Vector3.down);
             RaycastHit hitInfo;
             if(Physics.Raycast(ray, out hitInfo, 1100))
@@ -191,7 +272,7 @@ public class Isola : MonoBehaviour
                 Gizmos.DrawSphere(newPoint, 4);
             }
         }*/
-        if(treePoints != null)
+/*        if(treePoints != null)
         {
             foreach (Vector3 newPoint in finalTreePoints)
             {
@@ -211,6 +292,6 @@ public class Isola : MonoBehaviour
                 Gizmos.color = Color.green;
                 Gizmos.DrawSphere(newPoint, 6);
             }
-        }
+        }*/
     }
 }
