@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 221f9488657b1f1498bb5860cf4c5ff3, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -357,14 +357,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0d717de8581074dbbe9a42e271cec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateGame: 1
+  updateGame: 0
   size: 255
-  a: 3
-  b: 2
-  meshHeight: 25
+  screenScale: 10
+  a: 3.51
+  b: 4.13
+  meshHeight: 30.2
   scale: 30
   noiseStep: {x: 0, y: 0}
-  autoUpdate: 1
   useFallOff: 1
   usePerlin: 1
   useColor: 1
@@ -420,53 +420,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  gradient:
-    serializedVersion: 2
-    key0: {r: 0.87046105, g: 0.8773585, b: 0.7407885, a: 1}
-    key1: {r: 0.7370147, g: 0.8207547, b: 0.26713243, a: 1}
-    key2: {r: 0.87175363, g: 0.9150943, b: 0.21150766, a: 0}
-    key3: {r: 0.3349881, g: 0.754717, b: 0.21003917, a: 0}
-    key4: {r: 0.12130651, g: 0.5471698, b: 0.12131585, a: 0}
-    key5: {r: 0.4716981, g: 0.257261, b: 0.06897472, a: 0}
-    key6: {r: 0.3962264, g: 0.18063265, b: 0, a: 0}
-    key7: {r: 1, g: 1, b: 1, a: 0}
-    ctime0: 0
-    ctime1: 10794
-    ctime2: 18890
-    ctime3: 21588
-    ctime4: 39899
-    ctime5: 42598
-    ctime6: 56090
-    ctime7: 57247
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 8
-    m_NumAlphaKeys: 2
-  smallItemRadius: 19
-  smallItemSampleAttempts: 30
-  midItemRadius: 300
-  midItemSampleAttempts: 5
-  bigItemRadius: 125
-  bigItemSampleAttempts: 30
+  grassUpdate: 0
   grassSkins:
+  - {fileID: 8903058273634794869, guid: f1fc5bb90ac285e4486771552d63bcb8, type: 3}
+  - {fileID: 3356751432538110193, guid: ffbddc4ef9676cc419e81e06aaa836d8, type: 3}
+  - {fileID: 629542536758182806, guid: 7ca2fa2809968cf47852232e5d4a6e43, type: 3}
+  grassItemRadius: 22
+  grassItemSampleAttempts: 30
+  flowerUpdate: 0
+  flowerSkins:
   - {fileID: 2594766243793620232, guid: 4d1f930728eb81f499eefd1f6d4db221, type: 3}
   - {fileID: 2464754855653894261, guid: d7375139d18121f4daae96053a84e4c9, type: 3}
   - {fileID: 2831074819202018473, guid: 221bd8eee906efe489a9f1c8aad0ec09, type: 3}
   - {fileID: 5206183479118557810, guid: 96d41c598e0118d4e8684be3e2d7effb, type: 3}
-  - {fileID: 3759753885466561612, guid: 430aea17f65ddba419bf9f426b17128f, type: 3}
-  - {fileID: 629542536758182806, guid: 7ca2fa2809968cf47852232e5d4a6e43, type: 3}
-  - {fileID: 7116149066112205175, guid: aca4c69ba2792044da19860502518138, type: 3}
-  - {fileID: 3490930834329824882, guid: 08bdb42a7413db34e867890b29e20ecd, type: 3}
-  - {fileID: 8903058273634794869, guid: f1fc5bb90ac285e4486771552d63bcb8, type: 3}
-  - {fileID: 3356751432538110193, guid: ffbddc4ef9676cc419e81e06aaa836d8, type: 3}
-  bushSkins:
+  flowerItemRadius: 49
+  flowerItemSampleAttempts: 12
+  rockUpdate: 0
+  rockSkins:
   - {fileID: 6359112800851457702, guid: c0695e50372965840badd7b84ed57617, type: 3}
   - {fileID: 6201417577865561771, guid: 936441e8ad7465e409c2285b778dfd8f, type: 3}
   - {fileID: 8547562741469068411, guid: 1cc366ffed1f2924690139d67a88b254, type: 3}
@@ -476,15 +446,17 @@ MonoBehaviour:
   - {fileID: 3163170946955520158, guid: 387f66ad181e92a48a858cf3a9e7df2f, type: 3}
   - {fileID: 2277020209693313120, guid: 2e56899687a42f54aa20a3b27f073806, type: 3}
   - {fileID: 8944619187265165564, guid: c2cb5e8a081a26c4a94df01eb6c4e44c, type: 3}
-  - {fileID: 4894849518924458267, guid: dc53baa962b6d244cb9e81ec33c0865a, type: 3}
-  - {fileID: 1567778426036168570, guid: c00ecfa9e008e304ca87beda15e69f43, type: 3}
-  - {fileID: 8402614890987163458, guid: 169e5f050a9f145489237cc7105f3c1d, type: 3}
+  rockItemRadius: 70
+  rockItemSampleAttempts: 26
+  treeUpdate: 0
   treeSkins:
   - {fileID: 5142532879768883847, guid: 5983c8a04c0e73047a6c860b9cd9aaad, type: 3}
   - {fileID: 108225653778294438, guid: 3e2accafa3a5f1b40ba86cf39bcb49a7, type: 3}
   - {fileID: 5023827496289606453, guid: a79279818571b6848a9ccb8dcb36dd2c, type: 3}
   - {fileID: 2222111361404534124, guid: 88f2fd29f58b9734683512546acec310, type: 3}
   - {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
+  treeItemRadius: 50
+  treeItemSampleAttempts: 26
 --- !u!4 &1446379126
 Transform:
   m_ObjectHideFlags: 0

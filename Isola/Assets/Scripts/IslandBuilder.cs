@@ -8,7 +8,6 @@ public class IslandBuilder
     int size;
     float meshHeight;
     AnimationCurve curve;
-    Gradient gradient;
 
     bool useFallOff;
     float[] fallOffMap;
@@ -19,7 +18,7 @@ public class IslandBuilder
     Color[] colors;
 
     
-    public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve, Gradient gradient)
+    public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve)
     {
         this.mesh = mesh;
         this.size = size;
@@ -28,7 +27,6 @@ public class IslandBuilder
         this.useFallOff = useFallOff;
         this.usePerlin = usePerlin;
         this.useColor = useColor;
-        this.gradient = gradient;
         fallOffMap = FallOffMap.FallOffMapMaker(size,a, b);
         perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
     }
@@ -60,7 +58,7 @@ public class IslandBuilder
                 {
                     vertices[i].y = 0.001f;
                 }
-                colors[i] = gradient.Evaluate(vertices[i].y);
+                //colors[i] = gradient.Evaluate(vertices[i].y);
                 vertices[i].y = curve.Evaluate(vertices[i].y);
                 vertices[i].y *= meshHeight;
                 i++;
