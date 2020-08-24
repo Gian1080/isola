@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Xml;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
+using UnityEngine.XR.WSA.Input;
 
 public class Isola : MonoBehaviour
 {
@@ -16,7 +19,6 @@ public class Isola : MonoBehaviour
     [Range(0.1f, 100f)] public float meshHeight;
     [Range(0.001f, 100.0f)] public float scale;
     public Vector2 noiseStep;
-    //public bool autoUpdate = false;
     public bool useFallOff = false;
     public bool usePerlin = false;
     public bool useColor = false;
@@ -52,6 +54,7 @@ public class Isola : MonoBehaviour
     [Range(50, 300)] public float treeItemRadius;
     [Range(1, 30)] public int treeItemSampleAttempts;
 
+    public VisualEffect sunBurn;
 
     private void OnValidate()
     {
@@ -63,6 +66,7 @@ public class Isola : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
     }
@@ -71,7 +75,9 @@ public class Isola : MonoBehaviour
     {
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
-            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Directional Light")  && o != GameObject.Find("IslandMaker") && o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") && o != GameObject.Find("Capsule"))
+            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Directional Light")  && o != GameObject.Find("IslandMaker") &&
+                o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") &&
+                o != GameObject.Find("Capsule") && o != GameObject.Find("Sun"))
             {
                 print(o.ToString());
                 Destroy(o);
@@ -295,11 +301,10 @@ public class Isola : MonoBehaviour
         GenerateNatureSpawn();
     }
 
-    public float turnSpeed = 4.0f;
-    public float moveSpeed = 2.0f;
-
-    public float minTurnAngle = -90.0f;
-    public float maxTurnAngle = 90.0f;
-    private float rotX;
+    [HideInInspector] public float turnSpeed = 4.0f;
+    [HideInInspector] public float moveSpeed = 2.0f;
+    [HideInInspector] public float minTurnAngle = -90.0f;
+    [HideInInspector] public float maxTurnAngle = 90.0f;
+    [HideInInspector] private float rotX;
 
 }
