@@ -63,11 +63,15 @@ public class Isola : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+    }
+
     private void Start()
     {
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
-            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Directional Light")  && o != GameObject.Find("IslandMaker"))
+            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Directional Light")  && o != GameObject.Find("IslandMaker") && o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") && o != GameObject.Find("Capsule"))
             {
                 print(o.ToString());
                 Destroy(o);
@@ -302,4 +306,12 @@ public class Isola : MonoBehaviour
         waterMaker.GenerateWater();
         GenerateNatureSpawn();
     }
+
+    public float turnSpeed = 4.0f;
+    public float moveSpeed = 2.0f;
+
+    public float minTurnAngle = -90.0f;
+    public float maxTurnAngle = 90.0f;
+    private float rotX;
+
 }
