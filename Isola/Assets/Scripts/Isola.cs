@@ -81,45 +81,37 @@ public class Isola : MonoBehaviour
 
     public void GenerateIsland()
     {
-        if(isola == null)
+        if (GameObject.Find("isola"))
         {
-            isola = new GameObject("isola");
-            islandMaterial = Resources.Load<Material>("Materials/secondTerrainMaterial");
-            isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
-            isola.AddComponent<MeshFilter>();
-            collider = isola.AddComponent<MeshCollider>();
-            isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve);
-            collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
-            isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+            Destroy(GameObject.Find("isola"));
         }
-        else if(isola != null)
-        {
-            meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a ,b, scale, noiseStep, seed, meshHeight, curve);
-            isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
-        }
+        isola = new GameObject("isola");
+        islandMaterial = Resources.Load<Material>("Materials/secondTerrainMaterial");
+        isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
+        isola.AddComponent<MeshFilter>();
+        collider = isola.AddComponent<MeshCollider>();
+        isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+        meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve);
+        collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
+        isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+
     }
 
     public void GenerateWater()
     {
-        if(water == null)
+        if (GameObject.Find("water"))
         {
-            water = new GameObject("water");
-            water.AddComponent<MeshFilter>();
-            water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-            waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
-            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
-            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
-            water.transform.position = new Vector3(0, screenScale * 1.75f, 0);
+            Destroy(GameObject.Find("water"));
         }
-        else
-        {
-            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+        water = new GameObject("water");
+        water.AddComponent<MeshFilter>();
+        water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+        waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+        waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
+        water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
+        water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+        water.transform.position = new Vector3(0, screenScale * 1.75f, 0);
 
-
-        }
     }
 
     void GenerateNatureSpawn()
@@ -196,11 +188,6 @@ public class Isola : MonoBehaviour
             Destroy(GameObject.Find("Flower Parent"));
         }
         GameObject flower = new GameObject("Flower Parent");
-        if(flower.gameObject.transform.childCount > 0)
-        {
-            Destroy(flower);
-            flower = new GameObject("Flower Parent");
-        }
         for (int i = 0; i < naturePoints.Count; i++)
         {
             if (naturePoints[i].y >= 25 && naturePoints[i].y < 80)
@@ -294,7 +281,8 @@ public class Isola : MonoBehaviour
             
             if(Physics.Raycast(ray, out hitInfo, 1100))
             {
-                newMap.Add(new Vector3(objectMap[i].x, hitInfo.point.y, objectMap[i].z));
+                print(hitInfo.point.y);
+                newMap.Add(new Vector3(objectMap[i].x, hitInfo.point.y - (size * 0.0025f), objectMap[i].z));
             }
         }
         return newMap;
