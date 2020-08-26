@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44a8cb6967a2bc4ab6369c46fa18fcb, type: 3}
+  m_Name: MoonShapeSettings
+  m_EditorClassIdentifier: 
+  planetRadius: 24.3
+  noiseLayers:
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      strength: -0.1
+      numLayers: 2
+      baseRoughness: 1.74
+      roughness: 1.59
+      persistence: 1.14
+      centre: {x: 0, y: 0, z: 0}
+      minValue: 0.69
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      strength: 1.85
+      numLayers: 2
+      baseRoughness: 2.27
+      roughness: 0.1
+      persistence: 0.1
+      centre: {x: 0, y: 0, z: 0}
+      minValue: 0.69
