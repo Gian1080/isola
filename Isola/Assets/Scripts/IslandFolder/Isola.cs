@@ -82,7 +82,7 @@ public class Isola : MonoBehaviour
                 && o != GameObject.Find("MoonEffect") && o != GameObject.Find("NightLight")
                 && o != GameObject.Find("MoonHolder"))
             {
-                Destroy(o);
+               // Destroy(o);
             }
         }
     }

@@ -9,11 +9,13 @@ public class MoonFace
     Vector3 localUp;
     Vector3 axisA;
     Vector3 axisB;
-    public MoonFace(Mesh mesh, int resolution, Vector3 localUp)
+    MoonShapeGenerator moonShapeGenerator;
+    public MoonFace(MoonShapeGenerator moonShapeGenerator, Mesh mesh, int resolution, Vector3 localUp)
     {
         this.mesh = mesh;
         this.resolution = resolution;
         this.localUp = localUp;
+        this.moonShapeGenerator = moonShapeGenerator;
         axisA = new Vector3(localUp.y, localUp.z, localUp.x);
         axisB = Vector3.Cross(localUp, axisA);
     }
@@ -31,8 +33,8 @@ public class MoonFace
                 int i = x + y * resolution;
                 Vector2 percent = new Vector2(x, y) / (resolution - 1);
                 Vector3 pointOnUnitCube = localUp + (percent.x - 0.5f)* 2 * axisA + (percent.y - 0.5f) * 2 * axisB;
-                Vector3 pointOnUnitySphere = pointOnUnitCube.normalized;
-                vertices[i] = pointOnUnitySphere;
+                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
+                vertices[i] = moonShapeGenerator.CalculatePointOnMoon(pointOnUnitSphere);
 
                 if(x != resolution-1 && y != resolution -1)
                 {
@@ -50,7 +52,8 @@ public class MoonFace
             mesh.Clear();
             mesh.vertices = vertices;
             mesh.triangles = triangles;
-            mesh.RecalculateNormals();
+            //mesh.RecalculateNormals();
+            mesh.normals = vertices;
         }
     }
 }

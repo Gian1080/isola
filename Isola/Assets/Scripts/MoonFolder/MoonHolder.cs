@@ -19,18 +19,19 @@ public class MoonHolder : MonoBehaviour
             nightLight = GameObject.Find("Moon Light");
             moonLight = GameObject.Find("Moon Light").GetComponent<Light>();
         }
-        transform.localScale = new Vector3(moonScale, moonScale, moonScale);
-        transform.position = new Vector3(0, -moonHeight, 0);
-        moonEffect.transform.parent = transform;
-        nightLight.transform.parent = transform;
+        moonEffect.transform.localScale = new Vector3(moonScale, moonScale, moonScale);
+        moonEffect.transform.position = new Vector3(0, -moonHeight, 0);
+        moonEffect.transform.parent = moonEffect.transform;
+        nightLight.transform.parent = moonEffect.transform;
         nightLight.transform.position = transform.position;
-        nightLight.transform.rotation.SetLookRotation(new Vector3(0, -2000, 0));
+        
     }
 
     void Update()
     {
-        transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, moonSpeed * Time.deltaTime);
-        //nightLight.transform.position = transform.position;
+        moonEffect.transform.rotation.SetLookRotation(new Vector3(-100, 90, -270));
+        moonEffect.transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, moonSpeed * Time.deltaTime);
+        nightLight.transform.position = moonEffect.transform.position;
         if (nightLight.transform.position.y >= -50.0f)
         {
             moonLight.intensity = Mathf.Clamp((nightLight.transform.position.y / moonHeight), 0.5f, 1.1f) / 2;
