@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d16f1ae6dc275b4faf5483129592fef, type: 3}
   m_Name: PlanetShape
   m_EditorClassIdentifier: 
-  planetRadius: 160
+  planetRadius: 50
   noiseLayers:
   - enabled: 1
     useFirstLayerAsMask: 0
     noiseSettings:
-      strength: 0.09
+      strength: 0.1
       numLayers: 4
-      baseRoughness: 0.71
+      baseRoughness: 0.83
       roughness: 2.07
       persistence: 0.57
       centre: {x: 2.36, y: 0.44, z: 0}
       minValue: 1.1
-  - enabled: 1
+  - enabled: 0
     useFirstLayerAsMask: 1
     noiseSettings:
       strength: 4.02
@@ -37,8 +37,8 @@ MonoBehaviour:
   - enabled: 1
     useFirstLayerAsMask: 1
     noiseSettings:
-      strength: 4.02
-      numLayers: 1
+      strength: 2.42
+      numLayers: 2
       baseRoughness: 2.92
       roughness: 2.95
       persistence: 1.68

@@ -35,8 +35,8 @@ public class Sun : MonoBehaviour
 
     private void Update()
     {
-        //sunEffect.transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, sunSpeed * Time.deltaTime);
-        //dayLight.transform.position = sunEffect.transform.position;
+        sunEffect.transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, sunSpeed * Time.deltaTime);
+        dayLight.transform.position = sunEffect.transform.position;
         if(dayLight.transform.position.y >= -50.0f)
         {
             sunLight.intensity = Mathf.Clamp((dayLight.transform.position.y / sunHeigth), 0.5f, 1.1f);

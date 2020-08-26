@@ -28,6 +28,6 @@ public class NoiseFilter
         }
 
         noiseValue = Mathf.Max(0, noiseValue - settings.minValue);
-        return noiseValue * settings.strength;
+        return (GameObject.Find("Planet")) ? noiseValue * settings.strength : (noiseValue * settings.strength) * -1;
     }
 }

@@ -12,10 +12,8 @@ public class Planet : MonoBehaviour
     public ShapeSettings shapeSettings;
     public ColourSettings colourSettings;
 
-    [HideInInspector]
-    public bool shapeSettingsFoldout;
-    [HideInInspector]
-    public bool colourSettingsFoldout;
+    [HideInInspector] public bool shapeSettingsFoldout;
+    [HideInInspector] public bool colourSettingsFoldout;
 
     ShapeGenerator shapeGenerator = new ShapeGenerator();
     ColorGenerator colorGenerator = new ColorGenerator();
@@ -52,7 +50,7 @@ public class Planet : MonoBehaviour
         {
             if (meshFilters[i] == null)
             {
-                GameObject meshObj = new GameObject("mesh");
+                GameObject meshObj = new GameObject("PlanetMesh");
                 meshObj.transform.parent = transform;
                 meshObj.transform.localScale = new Vector3(10, 10, 10);
                 meshObj.AddComponent<MeshRenderer>();
