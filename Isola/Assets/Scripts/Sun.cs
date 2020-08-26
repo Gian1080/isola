@@ -10,7 +10,7 @@ public class Sun : MonoBehaviour
     [Range(1, 200)] public int sunSpeed;
     [Range(1,100)] public int scaler;
     GameObject dayLight;
-    Light mylight;
+    Light sunLight;
     private void Awake()
     {
         
@@ -19,11 +19,10 @@ public class Sun : MonoBehaviour
     void Start()
     {
 
-        if(GameObject.Find("Directional Light"))
+        if(GameObject.Find("Sun Light"))
         {
-            dayLight = GameObject.Find("Directional Light");
-            mylight = GameObject.Find("Directional Light").GetComponent<Light>();
-            print("TRUE FIND LIGHT");
+            dayLight = GameObject.Find("Sun Light");
+            sunLight = GameObject.Find("Sun Light").GetComponent<Light>();
         }
         sunEffect.transform.position = new Vector3(0, sunHeigth, 0);
         sunEffect.transform.localScale = new Vector3(scaler, scaler, scaler);
@@ -38,15 +37,13 @@ public class Sun : MonoBehaviour
     {
         sunEffect.transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, sunSpeed * Time.deltaTime);
         dayLight.transform.position = sunEffect.transform.position;
-        if(dayLight.transform.position.y >= -100.0f)
+        if(dayLight.transform.position.y >= -50.0f)
         {
-            mylight.intensity = Mathf.Clamp((dayLight.transform.position.y / sunHeigth), 0.5f, 1.1f);
-            print(mylight.intensity);
-            //print(dayLight.transform.position.y + " Height");
+            sunLight.intensity = Mathf.Clamp((dayLight.transform.position.y / sunHeigth), 0.5f, 1.1f);
         }
         else
         {
-            mylight.intensity = 0.001f;
+            sunLight.intensity = 0.001f;
         }
     }
 

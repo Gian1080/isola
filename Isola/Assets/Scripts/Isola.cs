@@ -75,11 +75,12 @@ public class Isola : MonoBehaviour
     {
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
-            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Directional Light")  && o != GameObject.Find("IslandMaker") &&
+            if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Sun Light")  && o != GameObject.Find("IslandMaker") &&
                 o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") &&
-                o != GameObject.Find("Capsule") && o != GameObject.Find("Sun"))
+                o != GameObject.Find("Capsule") && o != GameObject.Find("Sun") &&
+                o != GameObject.Find("Moon") && o != GameObject.Find("MoonFace") &&
+                o != GameObject.Find("Moon Light"))
             {
-                print(o.ToString());
                 Destroy(o);
             }
         }
@@ -151,11 +152,8 @@ public class Isola : MonoBehaviour
         if (treeUpdate)
         {
             List<Vector2> treePoints = PoissonDiscSampling.GeneratePoints(treeItemRadius, regionSize, treeItemSampleAttempts);
-            print(treePoints.Count + " treepoints");
             List<Vector3> treeMap = Converter(treePoints);
-            print(treeMap.Count + " treeMap");
             List<Vector3> finalTreePoints = ObjectHeightAdjuster(treeMap);
-            print(finalTreePoints.Count + " FinalTree");
             TreePlacer(finalTreePoints);
         }
     }
