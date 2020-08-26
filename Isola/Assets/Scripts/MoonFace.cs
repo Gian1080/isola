@@ -21,7 +21,6 @@ public class MoonFace
     public void ConstructMesh()
     {
         Vector3[] vertices = new Vector3[resolution * resolution];
-        Vector2[] uvs = new Vector2[vertices.Length];
         int[] triangles = new int[(resolution - 1) * (resolution - 1) * 6];
         int triIndex = 0;
 
@@ -47,18 +46,10 @@ public class MoonFace
                     triIndex += 6;
                 }
             }
-            for (int z = 0, i = 0; z <= resolution; z++)
-            {
-                for (int x = 0; x <= resolution; x++)
-                {
-                    uvs[i] = new Vector2((float)x / resolution, (float)z / resolution);
-                    i++;
-                }
-            }
+
             mesh.Clear();
             mesh.vertices = vertices;
             mesh.triangles = triangles;
-            mesh.uv = uvs;
             mesh.RecalculateNormals();
         }
     }

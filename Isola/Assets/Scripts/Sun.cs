@@ -8,7 +8,7 @@ public class Sun : MonoBehaviour
     public VisualEffect sunEffect;
     [Range(1, 2000)] public int sunHeigth;
     [Range(1, 200)] public int sunSpeed;
-    [Range(1,100)] public int scaler;
+    [Range(1,100)] public int sunScale;
     GameObject dayLight;
     Light sunLight;
     private void Awake()
@@ -25,7 +25,7 @@ public class Sun : MonoBehaviour
             sunLight = GameObject.Find("Sun Light").GetComponent<Light>();
         }
         sunEffect.transform.position = new Vector3(0, sunHeigth, 0);
-        sunEffect.transform.localScale = new Vector3(scaler, scaler, scaler);
+        sunEffect.transform.localScale = new Vector3(sunScale, sunScale, sunScale);
         dayLight.transform.parent = sunEffect.transform;
         dayLight.transform.position = sunEffect.transform.position;
         dayLight.transform.rotation.SetLookRotation(new Vector3(0, -2000, 0));

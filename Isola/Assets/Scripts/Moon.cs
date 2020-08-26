@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Moon : MonoBehaviour
 {
+    
     [Range(2, 255)] public int resolution;
-    [Range(1, 100)] public int moonScale;
-    [Range(1, 2000)] public int moonHeight;
+
     [SerializeField, HideInInspector] MeshFilter[] meshFilters;
     MoonFace[] moonFaces;
     Material moonMaterial;
-    GameObject nightLight;
-    Light moonLight;
+
 
     private void OnValidate()
     {
@@ -23,22 +23,11 @@ public class Moon : MonoBehaviour
     {
         Initialize();
         GenerateMesh();
-        if (GameObject.Find("Moon Light"))
-        {
-            nightLight = GameObject.Find("Moon Light");
-            moonLight = GameObject.Find("Moon Light").GetComponent<Light>();
-        }
-       // sunEffect.transform.position = new Vector3(0, moonHeight, 0);
-       // sunEffect.transform.localScale = new Vector3(moonScale, moonScale, moonScale);
-        //nightLight.transform.parent = sunEffect.transform;
-       // nightLight.transform.position = sunEffect.transform.position;
-        nightLight.transform.rotation.SetLookRotation(new Vector3(0, -2000, 0));
 
+    }
 
-
-
-        transform.localScale = new Vector3(moonScale, moonScale, moonScale);
-        transform.position = new Vector3(0, -1500, 0);
+    private void Update()
+    {
     }
 
     void Initialize()
@@ -61,6 +50,7 @@ public class Moon : MonoBehaviour
                 meshObject.AddComponent<MeshRenderer>().sharedMaterial = moonMaterial;
                 meshFilters[i] = meshObject.AddComponent<MeshFilter>();
                 meshFilters[i].sharedMesh = new Mesh();
+                print("Face made " + i.ToString());
             }
             moonFaces[i] = new MoonFace(meshFilters[i].sharedMesh, resolution, direction[i]);
         }

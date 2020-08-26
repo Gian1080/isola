@@ -54,7 +54,6 @@ public class Isola : MonoBehaviour
     [Range(50, 300)] public float treeItemRadius;
     [Range(1, 30)] public int treeItemSampleAttempts;
 
-    public VisualEffect sunBurn;
 
     private void OnValidate()
     {
@@ -79,7 +78,9 @@ public class Isola : MonoBehaviour
                 o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") &&
                 o != GameObject.Find("Capsule") && o != GameObject.Find("Sun") &&
                 o != GameObject.Find("Moon") && o != GameObject.Find("MoonFace") &&
-                o != GameObject.Find("Moon Light"))
+                o != GameObject.Find("Moon Light") && o != GameObject.Find("MoonMesh")
+                && o != GameObject.Find("MoonEffect") && o != GameObject.Find("NightLight")
+                && o != GameObject.Find("MoonHolder"))
             {
                 Destroy(o);
             }
