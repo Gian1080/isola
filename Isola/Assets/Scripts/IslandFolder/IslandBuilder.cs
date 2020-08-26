@@ -18,7 +18,9 @@ public class IslandBuilder
     Color[] colors;
 
     
-    public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor, float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight, AnimationCurve curve)
+    public IslandBuilder(Mesh mesh, int size, bool useFallOff, bool usePerlin, bool useColor,
+                        float a, float b,float scale,Vector2 noiseStep,int seed, float meshHeight,
+                        AnimationCurve curve, int octaves, float persistance, float lacunarity)
     {
         this.mesh = mesh;
         this.size = size;
@@ -28,7 +30,7 @@ public class IslandBuilder
         this.usePerlin = usePerlin;
         this.useColor = useColor;
         fallOffMap = FallOffMap.FallOffMapMaker(size,a, b);
-        perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep);
+        perlinMap = PerlinNoise.PerlinMapMaker(size, scale, seed, noiseStep, octaves, persistance, lacunarity);
     }
 
     public void BuildIsland()

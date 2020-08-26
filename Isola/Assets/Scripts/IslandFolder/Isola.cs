@@ -16,7 +16,10 @@ public class Isola : MonoBehaviour
     [Range(1, 10)] public int screenScale;
     [Range(0, 10)] public float a;
     [Range(0, 10)] public float b;
-    [Range(0.1f, 100f)] public float meshHeight;
+    [Range(1,8)] public int octaves;
+    [Range(0, 1f)] public float persistance;
+    public float lacunarity;
+    [Range(0.1f, 50f)] public float meshHeight;
     [Range(0.001f, 100.0f)] public float scale;
     public Vector2 noiseStep;
     public bool useFallOff = false;
@@ -83,6 +86,7 @@ public class Isola : MonoBehaviour
                 && o != GameObject.Find("MoonHolder"))
             {
                // Destroy(o);
+
             }
         }
     }
@@ -94,12 +98,12 @@ public class Isola : MonoBehaviour
             Destroy(GameObject.Find("isola"));
         }
         isola = new GameObject("isola");
-        islandMaterial = Resources.Load<Material>("Materials/secondTerrainMaterial");
+        islandMaterial = Resources.Load<Material>("Materials/Isola Materials/IsolaTerrain");
         isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
         isola.AddComponent<MeshFilter>();
         collider = isola.AddComponent<MeshCollider>();
         isola.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-        meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve);
+        meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, octaves, persistance, lacunarity);
         collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
         isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
 
@@ -115,7 +119,7 @@ public class Isola : MonoBehaviour
         water.AddComponent<MeshFilter>();
         water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
         waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-        waterMaterial = Resources.Load<Material>("Materials/TransparentWater");
+        waterMaterial = Resources.Load<Material>("Materials/Isola Materials/TransparentWater");
         water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
         water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
         water.transform.position = new Vector3(0, screenScale * 1.75f, 0);
