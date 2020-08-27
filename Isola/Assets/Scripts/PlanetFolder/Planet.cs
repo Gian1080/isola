@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
+    [Range(1, 10)] public int planetSpeed;
+    [Range(1000, 3000)] public int planetHeight;
 
-    [Range(2, 256)]
-    public int resolution = 10;
+    [Range(2, 256)] public int resolution = 10;
     public bool autoUpdate = true;
 
     public ShapeSettings shapeSettings;
@@ -26,12 +27,13 @@ public class Planet : MonoBehaviour
     {
         GeneratePlanet();
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = GameObject.Find("Sun").transform.position;
+        transform.position = new Vector3(-planetHeight, planetHeight, -planetHeight);
     }
 
     private void Update()
     {
-        transform.Rotate(0, -Time.deltaTime * 3, 0, Space.World);
+        transform.Rotate(0, -Time.deltaTime * 4, 0, Space.World);
+        //transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
     }
 
     void Initialize()

@@ -1,37 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Moon : MonoBehaviour
 {
-
-    [Range(2, 256)]
-    public int resolution = 10;
+    [Range(100, 2000)] public int moonHeight;
+    [Range(1, 100)] public int moonSpeed;
+    [Range(2, 256)] public int resolution = 10;
     public bool autoUpdate = true;
-
+    public VisualEffect moonEffect;
     public MoonShapeSettings shapeSettings;
     public MoonColorSettings colourSettings;
-
     [HideInInspector] public bool shapeSettingsFoldout;
     [HideInInspector] public bool colourSettingsFoldout;
 
     MoonShapeGenerator moonShapeGenerator = new MoonShapeGenerator();
     MoonColorGenerator moonColorGenerator = new MoonColorGenerator();
-
     [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     MoonTerrainFace[] moonFaces;
 
+    GameObject moonLooker;
+    GameObject moonLight;
+    Light light;
+    GameObject lightLookDirection;
+
     private void Start()
     {
+        moonLight = new GameObject("MoonLight");
+        light = moonLight.AddComponent<Light>();
+        moonLight.GetComponent<Light>().type = LightType.Directional;
+        moonLight.GetComponent<Light>().intensity = 0.5f;
+        moonLight.transform.position = transform.position;
+
+        moonLooker = new GameObject("MoonLooker");
+        moonLooker.transform.position = new Vector3(16000, 100, 0);
         GenerateMoon();
+        moonEffect.transform.position = transform.position;
+        moonEffect.transform.parent = transform;
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = GameObject.Find("Sun").transform.position;
+        transform.position = new Vector3(0, -moonHeight, 0);
+        Color color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+        light.color = color;
+        lightLookDirection = new GameObject("MoonLightLookDirection");
+        lightLookDirection.transform.position = new Vector3(-7500, -7500, 0);
     }
 
     private void Update()
     {
-        transform.Rotate(0, -Time.deltaTime * 3, 0, Space.World);
+
+        transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, moonSpeed * Time.deltaTime);
+        transform.LookAt(moonLooker.transform.position);
+        moonLight.transform.position = transform.position;
+        moonLight.transform.LookAt(lightLookDirection.transform.position);
+        if (moonLight.transform.position.y >= 0.0f)
+        {
+            light.intensity = Mathf.Clamp((moonLight.transform.position.y / moonHeight), 0.1f, 0.3f);
+        }
+        else
+        {
+            light.intensity = 0.001f;
+        }
     }
 
     void Initialize()

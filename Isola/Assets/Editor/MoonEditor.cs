@@ -22,7 +22,7 @@ public class MoonEditor : Editor
             }
         }
 
-        if (GUILayout.Button("Generate Planet"))
+        if (GUILayout.Button("Generate Moon"))
         {
             moon.GenerateMoon();
         }
