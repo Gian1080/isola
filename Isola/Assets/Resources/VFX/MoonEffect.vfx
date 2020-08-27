@@ -331,7 +331,7 @@ VisualEffectResource:
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tOrient_4(
       /*inout */attributes.axisX,  /*inout */attributes.axisY,  /*inout */attributes.axisZ);\n\t\t\t\t{\n\t\t\t\t   
       SetAttribute_3278B545( /*inout */attributes.size,  /*inout */attributes.seed,
-      (float)0.100000001, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_7DF18693(
+      (float)0.0500000007, (float)0.100000001);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_7DF18693(
       /*inout */attributes.size, attributes.age, attributes.lifetime, Size_c);\n\t\t\t\tAttributeFromCurve_48A86161(
       /*inout */attributes.color,  /*inout */attributes.alpha, attributes.age, attributes.lifetime,
       Color_d);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
@@ -542,7 +542,7 @@ VisualEffectResource:
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tOrient_4(
       /*inout */attributes.axisX,  /*inout */attributes.axisY,  /*inout */attributes.axisZ);\n\t\t\t\t{\n\t\t\t\t   
       SetAttribute_3278B545( /*inout */attributes.size,  /*inout */attributes.seed,
-      (float)0.100000001, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_7DF18693(
+      (float)0.0500000007, (float)0.100000001);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_7DF18693(
       /*inout */attributes.size, attributes.age, attributes.lifetime, Size_c);\n\t\t\t\tAttributeFromCurve_48A86161(
       /*inout */attributes.color,  /*inout */attributes.alpha, attributes.age, attributes.lifetime,
       Color_d);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
@@ -1011,7 +1011,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 19
           m_Value: 7
         - m_ExpressionIndex: 20
-          m_Value: 0.3
+          m_Value: 0.1
         - m_ExpressionIndex: 21
           m_Value: 10
         - m_ExpressionIndex: 22
@@ -1021,7 +1021,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 25
           m_Value: 1
         - m_ExpressionIndex: 27
-          m_Value: 0.1
+          m_Value: 0.05
         - m_ExpressionIndex: 29
           m_Value: 30
       m_Vector2f:
@@ -1085,7 +1085,7 @@ VisualEffectResource:
             key0: {r: 0.41568628, g: 0.41568628, b: 0.41568628, a: 0.48235294}
             key1: {r: 638.49414, g: 638.49414, b: 638.49414, a: 1}
             key2: {r: 0, g: 0, b: 0, a: 1}
-            key3: {r: 0, g: 0, b: 0, a: 0.7058824}
+            key3: {r: 0, g: 0, b: 0, a: 0.2901961}
             key4: {r: 0, g: 0, b: 0, a: 0}
             key5: {r: 0, g: 0, b: 0, a: 0}
             key6: {r: 0, g: 0, b: 0, a: 0}
@@ -1100,7 +1100,7 @@ VisualEffectResource:
             ctime7: 0
             atime0: 0
             atime1: 17733
-            atime2: 50501
+            atime2: 49151
             atime3: 65535
             atime4: 0
             atime5: 0
@@ -2080,7 +2080,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.4156862795352936,"g":0.4156862795352936,"b":0.4156862795352936,"a":1.0},"time":0.0},{"color":{"r":638.494140625,"g":638.494140625,"b":638.494140625,"a":1.0},"time":0.4617685079574585},{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.48235294222831728,"time":0.0},{"alpha":1.0,"time":0.2705882489681244},{"alpha":1.0,"time":0.7705958485603333},{"alpha":0.7058823704719544,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.4156862795352936,"g":0.4156862795352936,"b":0.4156862795352936,"a":1.0},"time":0.0},{"color":{"r":638.494140625,"g":638.494140625,"b":638.494140625,"a":1.0},"time":0.4617685079574585},{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.48235294222831728,"time":0.0},{"alpha":1.0,"time":0.2705882489681244},{"alpha":1.0,"time":0.7499961853027344},{"alpha":0.29019609093666079,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -2177,7 +2177,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.1
+      m_SerializableObject: 0.05
     m_Space: 2147483647
   m_Property:
     name: A
@@ -2217,7 +2217,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.3
+      m_SerializableObject: 0.1
     m_Space: 2147483647
   m_Property:
     name: B

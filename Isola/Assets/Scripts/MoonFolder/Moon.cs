@@ -40,7 +40,7 @@ public class Moon : MonoBehaviour
         moonEffect.transform.position = transform.position;
         moonEffect.transform.parent = transform;
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = new Vector3(0, -moonHeight, 0);
+        transform.position = new Vector3(0, -moonHeight * 2.2f, 0);
         Color color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
         light.color = color;
         lightLookDirection = new GameObject("MoonLightLookDirection");

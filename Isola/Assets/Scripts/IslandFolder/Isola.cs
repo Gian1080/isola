@@ -249,7 +249,7 @@ public class Isola : MonoBehaviour
                     natureObjects[i] = natureThing;
                     natureObjects[i].transform.parent = flower.transform;
                     natureObjects[i].transform.position = position;
-                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.25f));
                     natureObjects[i].transform.eulerAngles = rotation;
                 }
                 else if(islandType == 2)
@@ -258,7 +258,7 @@ public class Isola : MonoBehaviour
                     natureObjects[i] = natureThing;
                     natureObjects[i].transform.parent = flower.transform;
                     natureObjects[i].transform.position = position;
-                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.25f));
                     natureObjects[i].transform.eulerAngles = rotation;
                 }
             }
@@ -306,7 +306,7 @@ public class Isola : MonoBehaviour
                 }
                 else if (islandType == 2)
                 {
-                    if (bushRandom >= 51)
+                    if (bushRandom >= 75)
                     {
                         GameObject natureThing = Instantiate(normalBushSkins[Random.Range(0, normalBushSkins.Length)]);
                         natureObjects[i] = natureThing;
@@ -422,14 +422,35 @@ public class Isola : MonoBehaviour
                         natureObjects[i].transform.eulerAngles = rotation;
                     }
                 }
-                else if (islandType == 2)
+                if (islandType == 2)
                 {
-                    // GameObject natureThing = Instantiate(pastelTreeSkins[Random.Range(0, pastelTreeSkins.Length)]);
-                    // natureObjects[i] = natureThing;
-                    natureObjects[i].transform.parent = tree.transform;
-                    natureObjects[i].transform.position = position;
-                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
-                    natureObjects[i].transform.eulerAngles = rotation;
+                    if (treeRandom >= 95)
+                    {
+                        GameObject natureThing = Instantiate(pastelTreeSkinsBig[Random.Range(0, pastelTreeSkinsBig.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else if (treeRandom >= 80)
+                    {
+                        GameObject natureThing = Instantiate(pastelTreeSkinsMedium[Random.Range(0, pastelTreeSkinsMedium.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else if (treeRandom < 80)
+                    {
+                        GameObject natureThing = Instantiate(pastelTreeSkinsSmall[Random.Range(0, pastelTreeSkinsSmall.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
                 }
             }
         }
@@ -473,10 +494,10 @@ public class Isola : MonoBehaviour
         GenerateNatureSpawn();
     }
 
-    [HideInInspector] public float turnSpeed = 4.0f;
-    [HideInInspector] public float moveSpeed = 2.0f;
-    [HideInInspector] public float minTurnAngle = -90.0f;
-    [HideInInspector] public float maxTurnAngle = 90.0f;
-    [HideInInspector] private float rotX;
+    [HideInInspector] public float turnSpeed = 1.0f;
+    [HideInInspector] public float moveSpeed = 20.0f;
+    [HideInInspector] public float minTurnAngle = -120.0f;
+    [HideInInspector] public float maxTurnAngle = 120.0f;
+    //[HideInInspector] private float rotX;
 
 }

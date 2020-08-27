@@ -23,7 +23,7 @@ public class Sun : MonoBehaviour
         sunLight.GetComponent<Light>().intensity = 0.5f;
         sunLight.transform.position = transform.position;
 
-        sunEffect.transform.position = new Vector3(0, sunHeigth, 0);
+        sunEffect.transform.position = new Vector3(0, sunHeigth * 2.2f, 0);
         sunEffect.transform.localScale = new Vector3(sunScale, sunScale, sunScale);
 
         Color color = new Color(0.8f, 0.8f, 0.8f, 0.2f);
