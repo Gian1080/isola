@@ -10,7 +10,7 @@ Material:
   m_Name: M_SNB_Rocks
   m_Shader: {fileID: 4800000, guid: dc4e0ee9a701fd044af69ca022867e3f, type: 3}
   m_ShaderKeywords: _NORMALMAP
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1

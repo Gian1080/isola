@@ -144,14 +144,29 @@ public class Isola : MonoBehaviour
         {
             Destroy(GameObject.Find("water"));
         }
-        water = new GameObject("water");
-        water.AddComponent<MeshFilter>();
-        water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-        waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
-        waterMaterial = Resources.Load<Material>("Materials/Isola Materials/TransparentWater");
-        water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
-        water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
-        water.transform.position = new Vector3(0, screenScale * 1.75f, 0);
+        if (islandType == 1)
+        {
+            water = new GameObject("water");
+            water.AddComponent<MeshFilter>();
+            water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+            waterMaterial = Resources.Load<Material>("Materials/Isola Materials/TransparentWater");
+            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
+            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+            water.transform.position = new Vector3(0, screenScale * 1.725f, 0);
+        }
+        else if (islandType == 2)
+        {
+            water = new GameObject("water");
+            water.AddComponent<MeshFilter>();
+            water.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+            waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
+            waterMaterial = Resources.Load<Material>("Materials/Isola Materials/CartoonWater");
+            water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
+            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+            water.transform.position = new Vector3(0, screenScale * 1.725f, 0);
+        }
+
     }
 
     void GenerateNatureSpawn()
