@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.VFX;
 using UnityEngine.XR.WSA.Input;
 
@@ -14,18 +15,18 @@ public class Isola : MonoBehaviour
     public bool updateGame = false;
     [Range(122, 255)] public int size;
     [Range(1, 10)] public int screenScale;
+    public int seed;
+    [Range(2f, 80f)] public float scale;
     [Range(0, 10)] public float a;
     [Range(0, 10)] public float b;
-    [Range(1,8)] public int octaves;
+    [Range(1, 6)] public int octaves;
     [Range(0, 1f)] public float persistance;
     public float lacunarity;
     [Range(0.1f, 50f)] public float meshHeight;
-    [Range(0.001f, 100.0f)] public float scale;
     public Vector2 noiseStep;
     public bool useFallOff = false;
     public bool usePerlin = false;
     public bool useColor = false;
-    public int seed;
     public AnimationCurve curve;
 
     IslandBuilder meshMaker;
@@ -37,24 +38,47 @@ public class Isola : MonoBehaviour
     GameObject water;
     Material waterMaterial;
 
+    [Range(1, 2)] public int islandType;
+
     public bool grassUpdate = false;
     public GameObject[] grassSkins;
-    [Range(5, 300)] public float grassItemRadius;
+    [Range(8, 30)] public float grassItemRadius;
     [Range(1,30)] public int grassItemSampleAttempts;
 
     public bool flowerUpdate = false;
-    public GameObject[] flowerSkins;
-    [Range(5, 300)] public float flowerItemRadius;
+    public GameObject[] greenFlowerSkins;
+    public GameObject[] pastelFlowerSkins;
+
+    [Range(10, 40)] public float flowerItemRadius;
     [Range(1, 30)] public int flowerItemSampleAttempts;
 
+    public bool bushUpdate = false;
+    public GameObject[] normalBushSkins;
+    public GameObject[] greenBushSkins;
+    public GameObject[] pastelBushSkins;
+
+    [Range(20, 200)] public float bushItemRadius;
+    [Range(1, 30)] public int bushItemSampleAttempts;
+
     public bool rockUpdate = false;
-    public GameObject[] rockSkins;
+    public GameObject[] rockSkinsBig;
+    public GameObject[] rockSkinsMedium;
+    public GameObject[] rockSkinsSmall;
+
     [Range(20, 300)] public float rockItemRadius;
     [Range(1, 30)] public int rockItemSampleAttempts;
 
     public bool treeUpdate = false;
-    public GameObject[] treeSkins;
-    [Range(50, 300)] public float treeItemRadius;
+    public GameObject[] greenTreeSkinsBig;
+    public GameObject[] greenTreeSkinsMedium;
+    public GameObject[] greenTreeSkinsSmall;
+
+    public GameObject[] pastelTreeSkinsBig;
+    public GameObject[] pastelTreeSkinsMedium;
+    public GameObject[] pastelTreeSkinsSmall;
+
+
+    [Range(20, 200)] public float treeItemRadius;
     [Range(1, 30)] public int treeItemSampleAttempts;
 
 
@@ -75,7 +99,7 @@ public class Isola : MonoBehaviour
 
     private void Start()
     {
-        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+/*        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
             if(o != GameObject.Find("Main Camera") && o != GameObject.Find("Sun Light")  && o != GameObject.Find("IslandMaker") &&
                 o != GameObject.Find("FPSPlayer") && o != GameObject.Find("Main Camera") &&
@@ -88,7 +112,12 @@ public class Isola : MonoBehaviour
                // Destroy(o);
 
             }
-        }
+        }*/
+        GenerateIsland();
+        GenerateWater();
+        MakeNewIsland();
+
+
     }
 
     public void GenerateIsland()
@@ -98,6 +127,7 @@ public class Isola : MonoBehaviour
             Destroy(GameObject.Find("isola"));
         }
         isola = new GameObject("isola");
+        
         islandMaterial = Resources.Load<Material>("Materials/Isola Materials/IsolaTerrain");
         isola.AddComponent<MeshRenderer>().sharedMaterial = islandMaterial;
         isola.AddComponent<MeshFilter>();
@@ -106,7 +136,6 @@ public class Isola : MonoBehaviour
         meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, octaves, persistance, lacunarity);
         collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
         isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
-
     }
 
     public void GenerateWater()
@@ -123,7 +152,6 @@ public class Isola : MonoBehaviour
         water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
         water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
         water.transform.position = new Vector3(0, screenScale * 1.75f, 0);
-
     }
 
     void GenerateNatureSpawn()
@@ -144,6 +172,14 @@ public class Isola : MonoBehaviour
             List<Vector3> flowerMap = Converter(flowerPoints);
             List<Vector3> finalFlowerPoints = ObjectHeightAdjuster(flowerMap);
             FlowerPlacer(finalFlowerPoints);
+        }
+
+        if (bushUpdate)
+        {
+            List<Vector2> bushPoints = PoissonDiscSampling.GeneratePoints(bushItemRadius, regionSize, bushItemSampleAttempts);
+            List<Vector3> bushMap = Converter(bushPoints);
+            List<Vector3> finalBushPoints = ObjectHeightAdjuster(bushMap);
+            BushPlacer(finalBushPoints);
         }
 
         if (rockUpdate)
@@ -174,16 +210,16 @@ public class Isola : MonoBehaviour
         GameObject grass = new GameObject("Grass Parent");
         for (int i = 0; i < naturePoints.Count; i++)
         {
-            if (naturePoints[i].y >= 25 && naturePoints[i].y < 80)
+            if (naturePoints[i].y >= 33 && naturePoints[i].y < 60)
             {
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
-                Vector3 scale = Vector3.one * size / 22;
+                Vector3 scale = Vector3.one * (size / meshHeight);
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
                 GameObject natureThing = Instantiate(grassSkins[Random.Range(0, grassSkins.Length)]);
                 natureObjects[i] = natureThing;
                 natureObjects[i].transform.parent = grass.transform;
                 natureObjects[i].transform.position = position;
-                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                natureObjects[i].transform.localScale = (scale * Random.Range(0.8f, 1.2f));
                 natureObjects[i].transform.eulerAngles = rotation;
             }
         }
@@ -199,18 +235,96 @@ public class Isola : MonoBehaviour
         GameObject flower = new GameObject("Flower Parent");
         for (int i = 0; i < naturePoints.Count; i++)
         {
+            //int randomFlower = Random.Range(1, 100);
             if (naturePoints[i].y >= 25 && naturePoints[i].y < 80)
             {
                 Debug.Log(flower.gameObject.transform.childCount);
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
-                Vector3 scale = Vector3.one * size / 22;
+                Vector3 scale = Vector3.one * size / (screenScale + meshHeight);
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(flowerSkins[Random.Range(0, flowerSkins.Length)]);
-                natureObjects[i] = natureThing;
-                natureObjects[i].transform.parent = flower.transform;
-                natureObjects[i].transform.position = position;
-                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
-                natureObjects[i].transform.eulerAngles = rotation;
+
+                if (islandType == 1)
+                {
+                    GameObject natureThing = Instantiate(greenFlowerSkins[Random.Range(0, greenFlowerSkins.Length)]);
+                    natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = flower.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
+                else if(islandType == 2)
+                {
+                    GameObject natureThing = Instantiate(pastelFlowerSkins[Random.Range(0, pastelFlowerSkins.Length)]);
+                    natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = flower.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
+            }
+        }
+    }
+
+    void BushPlacer(List<Vector3> naturePoints)
+    {
+        GameObject[] natureObjects = new GameObject[naturePoints.Count];
+        if (GameObject.Find("Bush Parent"))
+        {
+            Destroy(GameObject.Find("Bush Parent"));
+        }
+        GameObject Bush = new GameObject("Bush Parent");
+        for (int i = 0; i < naturePoints.Count; i++)
+        {
+            int bushRandom = Random.Range(1, 100);
+            if (naturePoints[i].y >= 25 && naturePoints[i].y < 80)
+            {
+                Debug.Log(Bush.gameObject.transform.childCount);
+                Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
+                Vector3 scale = Vector3.one * size / (screenScale + meshHeight);
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                if (islandType == 1)
+                {
+                    if(bushRandom <= 75)
+                    {
+                        GameObject natureThing = Instantiate(normalBushSkins[Random.Range(0, normalBushSkins.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = Bush.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.3f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else
+                    {
+                        GameObject natureThing = Instantiate(greenBushSkins[Random.Range(0, greenBushSkins.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = Bush.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.3f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+
+                }
+                else if (islandType == 2)
+                {
+                    if (bushRandom >= 51)
+                    {
+                        GameObject natureThing = Instantiate(normalBushSkins[Random.Range(0, normalBushSkins.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = Bush.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.3f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else
+                    {
+                        GameObject natureThing = Instantiate(pastelBushSkins[Random.Range(0, pastelBushSkins.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = Bush.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.9f, 1.3f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                }
             }
         }
     }
@@ -225,17 +339,39 @@ public class Isola : MonoBehaviour
         GameObject rock = new GameObject("Rock Parent");
         for (int i = 0; i < naturePoints.Count; i++)
         {
-            if (naturePoints[i].y >= 40 && naturePoints[i].y < 100)
+            int rockRandom = Random.Range(1, 100);
+            if (naturePoints[i].y >= 50 && naturePoints[i].y < 100)
             {
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
-                Vector3 scale = Vector3.one * size / 22;
+                Vector3 scale = Vector3.one * size / meshHeight;
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(rockSkins[Random.Range(0, rockSkins.Length)]);
-                natureObjects[i] = natureThing;
-                natureObjects[i].transform.parent = rock.transform;
-                natureObjects[i].transform.position = position;
-                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
-                natureObjects[i].transform.eulerAngles = rotation;
+                if (rockRandom >= 92)
+                {
+                    GameObject natureThing = Instantiate(rockSkinsBig[Random.Range(0, rockSkinsBig.Length)]);
+                    natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = rock.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.8f, 1.3f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
+                else if (rockRandom >= 75)
+                {
+                    GameObject natureThing = Instantiate(rockSkinsMedium[Random.Range(0, rockSkinsMedium.Length)]);
+                    natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = rock.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
+                else if (rockRandom < 75)
+                {
+                    GameObject natureThing = Instantiate(rockSkinsSmall[Random.Range(0, rockSkinsSmall.Length)]);
+                    natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = rock.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
             }
         }
     }
@@ -250,17 +386,51 @@ public class Isola : MonoBehaviour
         GameObject tree = new GameObject("Tree Parent");
         for(int i = 0; i < naturePoints.Count; i++)
         {
+            int treeRandom = Random.Range(1, 100);
             if(naturePoints[i].y >= 45 && naturePoints[i].y < 90)
             {
                 Vector3 position = new Vector3(naturePoints[i].x, naturePoints[i].y, naturePoints[i].z);
                 Vector3 scale = Vector3.one * size / 22;
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
-                GameObject natureThing = Instantiate(treeSkins[Random.Range(0,treeSkins.Length)]);
-                natureObjects[i] = natureThing;
-                natureObjects[i].transform.parent = tree.transform;
-                natureObjects[i].transform.position = position;
-                natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
-                natureObjects[i].transform.eulerAngles = rotation;
+                if(islandType == 1)
+                {
+                    if(treeRandom >= 95)
+                    {
+                        GameObject natureThing = Instantiate(greenTreeSkinsBig[Random.Range(0, greenTreeSkinsBig.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else if(treeRandom >= 80)
+                    {
+                        GameObject natureThing = Instantiate(greenTreeSkinsMedium[Random.Range(0, greenTreeSkinsMedium.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                    else if (treeRandom < 80)
+                    {
+                        GameObject natureThing = Instantiate(greenTreeSkinsSmall[Random.Range(0, greenTreeSkinsSmall.Length)]);
+                        natureObjects[i] = natureThing;
+                        natureObjects[i].transform.parent = tree.transform;
+                        natureObjects[i].transform.position = position;
+                        natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                        natureObjects[i].transform.eulerAngles = rotation;
+                    }
+                }
+                else if (islandType == 2)
+                {
+                    // GameObject natureThing = Instantiate(pastelTreeSkins[Random.Range(0, pastelTreeSkins.Length)]);
+                    // natureObjects[i] = natureThing;
+                    natureObjects[i].transform.parent = tree.transform;
+                    natureObjects[i].transform.position = position;
+                    natureObjects[i].transform.localScale = (scale * Random.Range(0.75f, 1.25f));
+                    natureObjects[i].transform.eulerAngles = rotation;
+                }
             }
         }
     }
@@ -288,9 +458,8 @@ public class Isola : MonoBehaviour
             Ray ray = new Ray(new Vector3(objectMap[i].x, objectMap[i].y, objectMap[i].z), Vector3.down);
             RaycastHit hitInfo;
             
-            if(Physics.Raycast(ray, out hitInfo, 1100))
+            if(Physics.Raycast(ray, out hitInfo, 1100) && hitInfo.collider.name == "isola")
             {
-                print(hitInfo.point.y);
                 newMap.Add(new Vector3(objectMap[i].x, hitInfo.point.y - (size * 0.0025f), objectMap[i].z));
             }
         }

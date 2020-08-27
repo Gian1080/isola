@@ -27,13 +27,13 @@ public class Planet : MonoBehaviour
     {
         GeneratePlanet();
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = new Vector3(-planetHeight, planetHeight, -planetHeight);
+        transform.position = new Vector3(-planetHeight * 2f, planetHeight * 1.25f, -planetHeight * 2f);
     }
 
     private void Update()
     {
-        transform.Rotate(0, -Time.deltaTime * 4, 0, Space.World);
-        //transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
+        transform.Rotate(0, Time.deltaTime * planetSpeed * 1.2f, 0, Space.World);
+        transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
     }
 
     void Initialize()
