@@ -27,7 +27,7 @@ public class Planet : MonoBehaviour
     {
         GeneratePlanet();
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = new Vector3(-planetHeight * 2f, planetHeight * 1.25f, -planetHeight * 2f);
+        transform.position = new Vector3(-planetHeight * 2f, planetHeight / 20f, -planetHeight * 2f);
     }
 
     private void Update()

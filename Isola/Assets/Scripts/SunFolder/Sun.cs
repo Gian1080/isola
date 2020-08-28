@@ -13,6 +13,7 @@ public class Sun : MonoBehaviour
     GameObject lightLookDirection;
     GameObject sunLight;
     Light light;
+    VFXEventAttribute sunRise;
 
 
     void Start()
@@ -30,8 +31,7 @@ public class Sun : MonoBehaviour
         light.color = color;
         lightLookDirection = new GameObject("sunLightLookDirection");
         lightLookDirection.transform.position = new Vector3(-7500, -7500, 0);
-
-
+        
     }
 
     private void Update()
@@ -42,10 +42,23 @@ public class Sun : MonoBehaviour
         if (sunLight.transform.position.y >= 0.0f)
         {
             light.intensity = Mathf.Clamp((sunLight.transform.position.y / sunHeigth), 0.1f, 0.8f);
+            
         }
         else
         {
             light.intensity = 0.001f;
+        }
+
+        if (sunLight.transform.position.y > -15.0f && sunLight.transform.position.x > 0 )
+        {
+            
+            print("DAWN");
+            sunEffect.Play();
+        }
+        else if(sunLight.transform.position.y < sunHeigth / 2 && sunLight.transform.position.x < 0.0f)
+        {
+            print("SunSet");
+            sunEffect.Stop();
         }
     }
 

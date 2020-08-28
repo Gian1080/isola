@@ -49,6 +49,7 @@ public class Moon : MonoBehaviour
 
     private void Update()
     {
+        transform.Rotate(0, Time.deltaTime * moonSpeed * 20f, 0, Space.Self);
 
         transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, moonSpeed * Time.deltaTime);
         transform.LookAt(moonLooker.transform.position);
@@ -61,6 +62,14 @@ public class Moon : MonoBehaviour
         else
         {
             light.intensity = 0.001f;
+        }
+        if (moonLight.transform.position.y >= 0.0f && moonLight.transform.position.x >= 0.0f)
+        {
+            moonEffect.Play();
+        }
+        else if(moonLight.transform.position.y < 0.0f && moonLight.transform.position.x < 0.0f)
+        {
+            moonEffect.Stop();
         }
     }
 

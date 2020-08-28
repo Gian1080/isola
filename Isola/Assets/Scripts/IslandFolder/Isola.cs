@@ -164,7 +164,7 @@ public class Isola : MonoBehaviour
             waterMaterial = Resources.Load<Material>("Materials/Isola Materials/CartoonWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
-            water.transform.position = new Vector3(0, screenScale * 1.725f, 0);
+            water.transform.position = new Vector3(0, screenScale * 1.65f, 0);
         }
 
     }
@@ -509,10 +509,10 @@ public class Isola : MonoBehaviour
         GenerateNatureSpawn();
     }
 
-    [HideInInspector] public float turnSpeed = 1.0f;
+/*    [HideInInspector] public float turnSpeed = 1.0f;
     [HideInInspector] public float moveSpeed = 20.0f;
     [HideInInspector] public float minTurnAngle = -120.0f;
     [HideInInspector] public float maxTurnAngle = 120.0f;
-    //[HideInInspector] private float rotX;
+    //[HideInInspector] private float rotX;*/
 
 }
