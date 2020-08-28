@@ -77,10 +77,18 @@ public class Isola : MonoBehaviour
     public GameObject[] pastelTreeSkinsMedium;
     public GameObject[] pastelTreeSkinsSmall;
 
-
     [Range(20, 200)] public float treeItemRadius;
     [Range(1, 30)] public int treeItemSampleAttempts;
 
+
+    public GameObject[] ufo = new GameObject[1];
+    public VisualEffect ufoEffect;
+    public bool placeUfo = false;
+
+    public GameObject[] volcano = new GameObject[1];
+    public VisualEffect volcanoEffect;
+    public Material volcanoMaterial;
+    public bool placeVolcano = false;
 
     private void OnValidate()
     {
@@ -116,7 +124,7 @@ public class Isola : MonoBehaviour
         GenerateIsland();
         GenerateWater();
         MakeNewIsland();
-        
+        UfoPlacer();
 
     }
 
@@ -136,6 +144,7 @@ public class Isola : MonoBehaviour
         meshMaker = new IslandBuilder(isola.GetComponent<MeshFilter>().sharedMesh, size, useFallOff, usePerlin, useColor, a, b, scale, noiseStep, seed, meshHeight, curve, octaves, persistance, lacunarity);
         collider.sharedMesh = isola.GetComponent<MeshFilter>().sharedMesh;
         isola.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+
     }
 
     public void GenerateWater()
@@ -164,7 +173,7 @@ public class Isola : MonoBehaviour
             waterMaterial = Resources.Load<Material>("Materials/Isola Materials/CartoonWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.transform.localScale = new Vector3(screenScale * 3, screenScale, screenScale * 3);
-            water.transform.position = new Vector3(0, screenScale * 1.65f, 0);
+            water.transform.position = new Vector3(0, screenScale * 1.4f, 0);
         }
 
     }
@@ -508,6 +517,94 @@ public class Isola : MonoBehaviour
         meshMaker.BuildIsland();
         waterMaker.GenerateWater();
         GenerateNatureSpawn();
+        if(placeUfo)
+        {
+            UfoPlacer();
+        }
+        if(placeVolcano)
+        {
+            VolcanoPlacer();
+        }
+    }
+
+    void UfoPlacer()
+    {
+        if (GameObject.Find("Volcano Parent"))
+        {
+            Destroy(GameObject.Find("UfoParent"));
+        }
+        if (placeUfo)
+        {
+            float x = Random.Range(-1000, 1000);
+            float y = Random.Range(0, 1000);
+            float z = Random.Range(-1000, 1000);
+            Vector3 ufoVec = new Vector3(x, y , z);
+            Ray ufoRay = new Ray(ufoVec, Vector3.down);
+            RaycastHit ufoHit;
+            GameObject ufoParent = new GameObject("ufoParent");
+            if (Physics.Raycast(ufoRay, out ufoHit, 1000))
+            {
+                Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
+                GameObject ufoThing = Instantiate(ufo[0]);
+                ufoThing.transform.parent = ufoParent.transform;
+                ufoThing.transform.position = new Vector3(ufoHit.point.x, ufoHit.point.y, ufoHit.point.z); ;
+                ufoThing.transform.localScale = new Vector3(scale * 0.3f, scale * 0.3f, scale * 0.3f);
+                ufoThing.transform.eulerAngles = rotation;
+                ufoEffect.transform.position = ufoThing.transform.position;
+                ufoEffect.transform.localScale = new Vector3(scale, scale, scale);
+                print("UfoLanded");
+                print(ufo[0].transform.position.ToString());
+            }
+            else
+            {
+                print("HELPUFO");
+            }
+        }
+
+
+
+    }
+
+
+    void VolcanoPlacer()
+    {
+        if(placeVolcano)
+        {
+            if (GameObject.Find("Volcano Parent"))
+            {
+                Destroy(GameObject.Find("Volcano Parent"));
+            }
+            GameObject volcanoParent = new GameObject("Volcano Parent");
+            Vector3 volcanoVec = new Vector3(0 , 500 , size * 5);
+            Ray volcanoRay = new Ray(volcanoVec, Vector3.down);
+            RaycastHit volcanoHit;
+            if (Physics.Raycast(volcanoRay, out volcanoHit, 5000))
+            {
+                Vector3 rotation = new Vector3(-90, 0, 0);
+                
+                GameObject volcanoThing = Instantiate(volcano[0]);
+                volcanoThing.transform.parent = volcanoParent.transform;
+                volcanoMaterial = Resources.Load<Material>("Materials/Isola Materials/IsolaTerrain");
+                volcanoThing.GetComponent<MeshRenderer>().sharedMaterial = islandMaterial;
+                
+                volcanoThing.transform.position = new Vector3(volcanoHit.point.x, volcanoHit.point.y, volcanoHit.point.z); ;
+                volcanoThing.transform.localScale = new Vector3(scale , scale , scale * 1.5f);
+                volcanoThing.transform.eulerAngles = rotation;
+                volcanoEffect.transform.position = volcanoThing.transform.position;
+                volcanoEffect.transform.position = new Vector3(volcanoThing.transform.position.x, size * 1.1f, volcanoThing.transform.position.z );
+                volcanoEffect.transform.localScale = new Vector3(scale * 6, scale * 6, scale * 6);
+
+                print("VOLCANO HERE");
+                print(volcano[0].transform.position.ToString());
+            }
+            else
+            {
+                print("HELPVOLCANO");
+            }
+        }
+
+        
+
     }
 
     [HideInInspector] public float turnSpeed = 1.0f;

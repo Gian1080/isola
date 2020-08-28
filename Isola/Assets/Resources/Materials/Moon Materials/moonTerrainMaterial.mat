@@ -26,4 +26,4 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - _elevationMinMax: {r: 10.515746, g: 20.232145, b: 0, a: 0}
+    - _elevationMinMax: {r: -4.338944, g: 20.131224, b: 0, a: 0}
