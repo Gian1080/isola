@@ -32,7 +32,7 @@ public class Planet : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, Time.deltaTime * planetSpeed * 1.2f, 0, Space.World);
+        transform.Rotate(0, -Time.deltaTime * planetSpeed * 1.2f, 0, Space.World);
         transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
     }
 

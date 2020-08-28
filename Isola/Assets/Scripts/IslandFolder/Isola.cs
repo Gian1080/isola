@@ -33,7 +33,7 @@ public class Isola : MonoBehaviour
     MeshCollider collider;
     GameObject isola;
     Material islandMaterial;
-
+    Skybox skybox = new Skybox();
     WaterMaker waterMaker;
     GameObject water;
     Material waterMaterial;
@@ -116,7 +116,7 @@ public class Isola : MonoBehaviour
         GenerateIsland();
         GenerateWater();
         MakeNewIsland();
-
+        
 
     }
 
@@ -152,7 +152,7 @@ public class Isola : MonoBehaviour
             waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
             waterMaterial = Resources.Load<Material>("Materials/Isola Materials/TransparentWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
-            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+            water.transform.localScale = new Vector3(screenScale * 3, screenScale, screenScale * 3);
             water.transform.position = new Vector3(0, screenScale * 1.725f, 0);
         }
         else if (islandType == 2)
@@ -163,7 +163,7 @@ public class Isola : MonoBehaviour
             waterMaker = new WaterMaker(water.GetComponent<MeshFilter>().sharedMesh, size);
             waterMaterial = Resources.Load<Material>("Materials/Isola Materials/CartoonWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
-            water.transform.localScale = new Vector3(screenScale, screenScale, screenScale);
+            water.transform.localScale = new Vector3(screenScale * 3, screenScale, screenScale * 3);
             water.transform.position = new Vector3(0, screenScale * 1.65f, 0);
         }
 
@@ -232,6 +232,7 @@ public class Isola : MonoBehaviour
                 Vector3 rotation = new Vector3(Random.Range(0, 10f), Random.Range(0, 360f), Random.Range(0, 10f));
                 GameObject natureThing = Instantiate(grassSkins[Random.Range(0, grassSkins.Length)]);
                 natureObjects[i] = natureThing;
+                
                 natureObjects[i].transform.parent = grass.transform;
                 natureObjects[i].transform.position = position;
                 natureObjects[i].transform.localScale = (scale * Random.Range(0.8f, 1.2f));
@@ -509,10 +510,10 @@ public class Isola : MonoBehaviour
         GenerateNatureSpawn();
     }
 
-/*    [HideInInspector] public float turnSpeed = 1.0f;
+    [HideInInspector] public float turnSpeed = 1.0f;
     [HideInInspector] public float moveSpeed = 20.0f;
-    [HideInInspector] public float minTurnAngle = -120.0f;
-    [HideInInspector] public float maxTurnAngle = 120.0f;
-    //[HideInInspector] private float rotX;*/
+    [HideInInspector] public float minTurnAngle = -90.0f;
+    [HideInInspector] public float maxTurnAngle = 90.0f;
+    //[HideInInspector] private float rotX;
 
 }
