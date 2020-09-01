@@ -24,8 +24,8 @@ public class Sun : MonoBehaviour
         sunLight.GetComponent<Light>().intensity = 0.5f;
         sunLight.transform.position = transform.position;
 
-        sunEffect.transform.position = new Vector3(0, sunHeigth * 2.2f, 0);
-        sunEffect.transform.localScale = new Vector3(sunScale, sunScale, sunScale);
+        sunEffect.transform.position = new Vector3(0, sunHeigth * 1.1f, 0);
+        sunEffect.transform.localScale = new Vector3(sunScale / 2, sunScale / 2, sunScale / 2);
 
         Color color = new Color(0.8f, 0.8f, 0.8f, 0.2f);
         light.color = color;
@@ -42,20 +42,19 @@ public class Sun : MonoBehaviour
         if (sunLight.transform.position.y >= 0.0f)
         {
             light.intensity = Mathf.Clamp((sunLight.transform.position.y / sunHeigth), 0.1f, 0.8f);
-            
+
         }
         else
         {
             light.intensity = 0.001f;
         }
-
-        if (sunLight.transform.position.y > -15.0f && sunLight.transform.position.x > 0 )
+        if (sunLight.transform.position.y > 0.0f && sunLight.transform.position.x > 0 )
         {
             
             print("DAWN");
             sunEffect.Play();
         }
-        else if(sunLight.transform.position.y < sunHeigth / 2 && sunLight.transform.position.x < 0.0f)
+        else if(sunLight.transform.position.y < sunHeigth / 2 && sunLight.transform.position.x < 100.0f)
         {
             print("SunSet");
             sunEffect.Stop();

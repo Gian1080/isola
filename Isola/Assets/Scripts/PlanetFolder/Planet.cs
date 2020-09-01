@@ -26,14 +26,16 @@ public class Planet : MonoBehaviour
     private void Start()
     {
         GeneratePlanet();
-        transform.localScale = new Vector3(1, 1, 1);
-        transform.position = new Vector3(-planetHeight * 2f, planetHeight / 20f, -planetHeight * 2f);
+        transform.position = new Vector3(6666, 1111, 6666);
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     private void Update()
     {
-        transform.Rotate(0, -Time.deltaTime * planetSpeed * 1.2f, 0, Space.World);
-        transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
+
+        transform.position = new Vector3(2222, 1111, 1111);
+        transform.Rotate(0, -Time.deltaTime * planetSpeed * 1.8f, 0, Space.World);
+        //transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, planetSpeed * Time.deltaTime);
     }
 
     void Initialize()

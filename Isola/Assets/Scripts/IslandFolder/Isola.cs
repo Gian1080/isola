@@ -82,7 +82,7 @@ public class Isola : MonoBehaviour
 
 
     public GameObject[] ufo = new GameObject[1];
-    public VisualEffect ufoEffect;
+    //public VisualEffect ufoEffect;
     public bool placeUfo = false;
 
     public GameObject[] volcano = new GameObject[1];
@@ -162,7 +162,7 @@ public class Isola : MonoBehaviour
             waterMaterial = Resources.Load<Material>("Materials/Isola Materials/TransparentWater");
             water.AddComponent<MeshRenderer>().sharedMaterial = waterMaterial;
             water.transform.localScale = new Vector3(screenScale * 3, screenScale, screenScale * 3);
-            water.transform.position = new Vector3(0, screenScale * 1.725f, 0);
+            water.transform.position = new Vector3(0, screenScale * 1.5f, 0);
         }
         else if (islandType == 2)
         {
@@ -529,9 +529,9 @@ public class Isola : MonoBehaviour
 
     void UfoPlacer()
     {
-        if (GameObject.Find("Volcano Parent"))
+        if (GameObject.Find("ufoParent"))
         {
-            Destroy(GameObject.Find("UfoParent"));
+            Destroy(GameObject.Find("ufoParent"));
         }
         if (placeUfo)
         {
@@ -550,9 +550,9 @@ public class Isola : MonoBehaviour
                 ufoThing.transform.position = new Vector3(ufoHit.point.x, ufoHit.point.y, ufoHit.point.z); ;
                 ufoThing.transform.localScale = new Vector3(scale * 0.3f, scale * 0.3f, scale * 0.3f);
                 ufoThing.transform.eulerAngles = rotation;
-                ufoEffect.transform.position = ufoThing.transform.position;
-                ufoEffect.transform.localScale = new Vector3(scale, scale, scale);
-                print("UfoLanded");
+               // ufoEffect.transform.position = ufoThing.transform.position;
+               //ufoEffect.transform.localScale = new Vector3(scale, scale, scale);
+                print("ufoLanded");
                 print(ufo[0].transform.position.ToString());
             }
             else

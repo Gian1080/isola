@@ -30,7 +30,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Depth: 7.5
-    - _Displacement: 1
+    - _Displacement: 0.3
     - _NormalStrength: 0.8
     - _Smoothness: 0.65
     - _Strenght: 0.25

@@ -40,7 +40,7 @@ public class Moon : MonoBehaviour
         moonEffect.transform.position = transform.position;
         moonEffect.transform.parent = transform;
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = new Vector3(0, -moonHeight * 2.2f, 0);
+        transform.position = new Vector3(1111, 1111, 1111);
         Color color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
         light.color = color;
         lightLookDirection = new GameObject("MoonLightLookDirection");
@@ -49,7 +49,7 @@ public class Moon : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, Time.deltaTime * moonSpeed * 20f, 0, Space.Self);
+/*        transform.Rotate(0, Time.deltaTime * moonSpeed * 20f, 0, Space.Self);
 
         transform.RotateAround(new Vector3(0, 0, 0), Vector3.forward, moonSpeed * Time.deltaTime);
         transform.LookAt(moonLooker.transform.position);
@@ -70,7 +70,7 @@ public class Moon : MonoBehaviour
         else if(moonLight.transform.position.y < 0.0f && moonLight.transform.position.x < 0.0f)
         {
             moonEffect.Stop();
-        }
+        }*/
     }
 
     void Initialize()
